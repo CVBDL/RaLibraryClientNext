@@ -17,7 +17,9 @@ import { BooksService } from "./Books.service";
     MatTabsModule,
     RouterModule
   ],
-  exports: [NavComponent],
+  exports: [
+    NavComponent
+  ],
   providers: [BooksService],
   declarations: [NavComponent]
 })

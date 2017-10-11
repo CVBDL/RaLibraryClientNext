@@ -6,7 +6,8 @@ import { BooksService } from "../core/Books.service";
 @Component({
   selector: 'ral-browse',
   templateUrl: './browse.component.html',
-  styleUrls: ['./browse.component.scss']
+  styleUrls: ['./browse.component.scss'],
+  host: { 'class': 'ral-browse' }
 })
 export class BrowseComponent implements OnInit {
 
