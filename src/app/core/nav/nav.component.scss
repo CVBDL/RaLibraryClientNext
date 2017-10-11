@@ -1,0 +1,13 @@
+.ral-nav {
+  display:block;
+
+  // Overwrite angular material styles
+
+  .mat-tab-links {
+    display: flex;
+  }
+
+  .mat-tab-link {
+    flex: 1;
+  }
+}

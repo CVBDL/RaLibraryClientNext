@@ -1,0 +1,37 @@
+:host {
+  display: block;
+}
+
+.mat-card {
+  display: flex;
+  flex-direction: row;
+}
+
+.ral-card__thumbnail {
+  flex: 0 1 auto;
+
+  img {
+    max-width: 128px;
+    width: 128px;
+    height: auto;
+  }
+}
+
+.ral-card__content {
+  margin: 0 16px;
+  flex: 1;
+}
+
+.ral-card__title,
+.ral-card__subtitle {
+  margin: 0 0 12px 0;
+}
+
+.ral-card__detail {
+  color: rgba(0, 0, 0, .54);
+  margin: 0 0 4px 0;
+
+  &:last-child {
+    margin: 0;
+  }
+}

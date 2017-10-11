@@ -1,0 +1,11 @@
+<mat-card>
+  <div class="ral-card__thumbnail">
+      <img [src]="book?.ThumbnailLink">
+  </div>
+  <div class="ral-card__content">
+    <h2 class="ral-card__title mat-body-1">{{book.Title}}</h2>
+    <p class="ral-card__subtitle mat-body-1">{{book.Subtitle}}</p>
+    <p class="ral-card__detail mat-body-1">{{book.Authors}}</p>
+    <p class="ral-card__detail mat-body-1">{{book.PublishedDate}}</p>
+  </div>
+</mat-card>
