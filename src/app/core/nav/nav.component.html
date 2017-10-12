@@ -1,5 +1,5 @@
-<nav mat-tab-nav-bar>
-  <a mat-tab-link
+<nav mat-tab-nav-bar [ngClass.xs]="'xs'">
+  <a mat-tab-link class="item"
      *ngFor="let link of navLinks"
      [routerLink]="link.path"
      routerLinkActive #rla="routerLinkActive"

@@ -1,8 +1,9 @@
 .ral-nav {
   display:block;
+}
 
-  // Overwrite angular material styles
-
+// Overwrite angular material styles for mobile phone.
+.xs {
   .mat-tab-links {
     display: flex;
   }
