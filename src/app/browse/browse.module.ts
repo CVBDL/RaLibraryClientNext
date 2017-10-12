@@ -4,6 +4,7 @@ import { NgModule } from '@angular/core';
 import { BrowseRoutingModule } from "./browse-routing.module";
 import { SharedModule } from "../shared/shared.module";
 
+import { BookListComponent } from './book-list/book-list.component';
 import { BrowseComponent } from './browse.component';
 
 @NgModule({
@@ -12,6 +13,9 @@ import { BrowseComponent } from './browse.component';
     CommonModule,
     SharedModule
   ],
-  declarations: [BrowseComponent]
+  declarations: [
+    BookListComponent,
+    BrowseComponent
+  ]
 })
 export class BrowseModule { }

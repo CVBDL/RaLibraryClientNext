@@ -20,8 +20,12 @@ import { BooksService } from "./Books.service";
   exports: [
     NavComponent
   ],
-  providers: [BooksService],
-  declarations: [NavComponent]
+  providers: [
+    BooksService
+  ],
+  declarations: [
+    NavComponent
+  ]
 })
 export class CoreModule {
   constructor( @Optional() @SkipSelf() parentModule: CoreModule) {
