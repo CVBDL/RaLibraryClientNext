@@ -1,3 +1,7 @@
 <div fxLayout="column" fxLayoutGap="8px" class="container">
-  <ral-card *ngFor="let book of books" [book]="book"></ral-card>
+  <ral-card
+    *ngFor="let book of books"
+    [book]="book"
+    [routerLink]="['/browse/books', book.Id]">
+  </ral-card>
 </div>
