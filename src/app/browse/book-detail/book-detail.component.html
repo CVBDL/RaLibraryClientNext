@@ -1,0 +1,25 @@
+<div class="ral-book-detail__container" *ngIf="book">
+  <div class="ral-book-detail__header" fxLayout="row">
+    <div fxFlex="auto">
+      <h2 class="mat-body-2">Title</h2>
+      <p class="mat-body-1">{{book?.Title}}</p>
+      <h2 class="mat-body-2">Subtitle</h2>
+      <p class="mat-body-1">{{book?.Subtitle}}</p>
+      <h2 class="mat-body-2">Authors</h2>
+      <p class="mat-body-1">{{book?.Authors}}</p>
+    </div>
+    <div fxFlex="nogrow">
+      <img [src]="book?.ThumbnailLink">
+    </div>
+  </div>
+  <div class="ral-book-detail__content">
+    <h2 class="mat-body-2">Publisher</h2>
+    <p class="mat-body-1">{{book?.Publisher}}</p>
+    <h2 class="mat-body-2">Published Date</h2>
+    <p class="mat-body-1">{{book?.PublishedDate}}</p>
+    <h2 class="mat-body-2">Page Count</h2>
+    <p class="mat-body-1">{{book?.PageCount}}</p>
+    <h2 class="mat-body-2">Description</h2>
+    <p class="mat-body-1">{{book?.Description}}</p>
+  </div>
+</div>

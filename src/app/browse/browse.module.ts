@@ -6,6 +6,7 @@ import { SharedModule } from "../shared/shared.module";
 
 import { BookListComponent } from './book-list/book-list.component';
 import { BrowseComponent } from './browse.component';
+import { BookDetailComponent } from './book-detail/book-detail.component';
 
 @NgModule({
   imports: [
@@ -15,7 +16,8 @@ import { BrowseComponent } from './browse.component';
   ],
   declarations: [
     BookListComponent,
-    BrowseComponent
+    BrowseComponent,
+    BookDetailComponent
   ]
 })
 export class BrowseModule { }
