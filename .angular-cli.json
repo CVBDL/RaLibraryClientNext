@@ -19,7 +19,8 @@
       "testTsconfig": "tsconfig.spec.json",
       "prefix": "ral",
       "styles": [
-        "styles.scss"
+        "styles.scss",
+        "theme/theme.scss"
       ],
       "scripts": [],
       "environmentSource": "environments/environment.ts",
