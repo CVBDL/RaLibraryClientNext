@@ -4,7 +4,7 @@ import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs/Rx';
 
 import { Book } from "../../shared/book";
-import { BooksService } from "../../core/Books.service";
+import { BooksService } from "../../core/books.service";
 import 'rxjs/add/operator/switchMap';
 @Component({
   templateUrl: './book-detail.component.html',

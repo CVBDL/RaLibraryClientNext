@@ -2,9 +2,10 @@ import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 
 import { Observable } from 'rxjs/Rx';
+import 'rxjs/add/operator/switchMap';
 
 import { Book } from "../shared/book";
-import 'rxjs/add/operator/switchMap';
+
 @Injectable()
 export class BooksService {
   readonly rootEndpoint: string = '/assets/mock/books.json';

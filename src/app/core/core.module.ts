@@ -1,19 +1,31 @@
 import { CommonModule } from '@angular/common';
 import { FlexLayoutModule } from '@angular/flex-layout';
+import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
-import { MatTabsModule } from '@angular/material';
+import {
+  MatButtonModule,
+  MatDialogModule,
+  MatInputModule,
+  MatTabsModule
+} from '@angular/material';
 import { NgModule, Optional, SkipSelf } from "@angular/core";
 import { RouterModule } from '@angular/router';
 
-import { throwIfAlreadyLoaded } from './module-import-guard';
+import { AuthenticationService } from "./authentication.service";
+import { BooksService } from "./books.service";
+import { LoginDialogComponent } from './login-dialog/login-dialog.component';
 import { NavComponent } from './nav/nav.component';
-import { BooksService } from "./Books.service";
+import { throwIfAlreadyLoaded } from './module-import-guard';
 
 @NgModule({
   imports: [
     CommonModule,
     FlexLayoutModule,
+    FormsModule,
     HttpClientModule,
+    MatButtonModule,
+    MatDialogModule,
+    MatInputModule,
     MatTabsModule,
     RouterModule
   ],
@@ -21,10 +33,13 @@ import { BooksService } from "./Books.service";
     NavComponent
   ],
   providers: [
+    AuthenticationService,
     BooksService
   ],
   declarations: [
-    NavComponent
+    LoginDialogComponent,
+    NavComponent,
+    LoginDialogComponent
   ]
 })
 export class CoreModule {

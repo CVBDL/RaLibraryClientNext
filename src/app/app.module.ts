@@ -5,8 +5,10 @@ import { NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { BrowseModule } from "./browse/browse.module";
 import { CoreModule } from "./core/core.module";
+import { ProfileModule } from "./profile/profile.module";
 
 import { AppComponent } from './app.component';
+import { LoginDialogComponent } from "./core/login-dialog/login-dialog.component";
 
 @NgModule({
   imports: [
@@ -14,10 +16,12 @@ import { AppComponent } from './app.component';
     BrowserModule,
     BrowserAnimationsModule,
     BrowseModule,
-    CoreModule
+    CoreModule,
+    ProfileModule
   ],
   providers: [],
   declarations: [AppComponent],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  entryComponents: [LoginDialogComponent]
 })
 export class AppModule { }
