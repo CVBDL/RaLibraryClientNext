@@ -14,6 +14,7 @@ import { AuthenticationService } from "../authentication.service";
   styleUrls: ['./login-dialog.component.scss']
 })
 export class LoginDialogComponent {
+  private isLoading: boolean = false;
 
   username: string;
   password: string;
@@ -24,12 +25,15 @@ export class LoginDialogComponent {
   ) { }
 
   onClickSignIn(): void {
-    this.dialogRef.close();
-
+    this.isLoading = true;
     this.auth.login(this.username, this.password)
-      .subscribe((data) => {
-        console.log(data.IdToken);
-      })
+      .subscribe(() => {
+        this.isLoading = false;
+        this.dialogRef.close();
+      }, () => {
+        this.isLoading = false;
+        this.dialogRef.close();
+      });
   }
 
   onClickCancel(): void {

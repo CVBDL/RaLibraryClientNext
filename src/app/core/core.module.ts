@@ -1,11 +1,15 @@
 import { CommonModule } from '@angular/common';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { FormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import {
+  HttpClientModule,
+  HTTP_INTERCEPTORS
+} from '@angular/common/http';
 import {
   MatButtonModule,
   MatDialogModule,
   MatInputModule,
+  MatProgressBarModule,
   MatTabsModule
 } from '@angular/material';
 import { NgModule, Optional, SkipSelf } from "@angular/core";
@@ -14,8 +18,10 @@ import { RouterModule } from '@angular/router';
 import { AuthenticationService } from "./authentication.service";
 import { BooksService } from "./books.service";
 import { LoginDialogComponent } from './login-dialog/login-dialog.component';
+import { Interceptor } from "./interceptor.service";
 import { NavComponent } from './nav/nav.component';
 import { throwIfAlreadyLoaded } from './module-import-guard';
+import { UsersService } from "./users.service";
 
 @NgModule({
   imports: [
@@ -26,6 +32,7 @@ import { throwIfAlreadyLoaded } from './module-import-guard';
     MatButtonModule,
     MatDialogModule,
     MatInputModule,
+    MatProgressBarModule,
     MatTabsModule,
     RouterModule
   ],
@@ -34,7 +41,13 @@ import { throwIfAlreadyLoaded } from './module-import-guard';
   ],
   providers: [
     AuthenticationService,
-    BooksService
+    BooksService,
+    UsersService,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: Interceptor,
+      multi: true
+    }
   ],
   declarations: [
     LoginDialogComponent,

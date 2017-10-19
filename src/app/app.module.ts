@@ -6,6 +6,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { BrowseModule } from "./browse/browse.module";
 import { CoreModule } from "./core/core.module";
 import { ProfileModule } from "./profile/profile.module";
+import { SearchModule } from "./search/search.module";
 
 import { AppComponent } from './app.component';
 import { LoginDialogComponent } from "./core/login-dialog/login-dialog.component";
@@ -17,7 +18,8 @@ import { LoginDialogComponent } from "./core/login-dialog/login-dialog.component
     BrowserAnimationsModule,
     BrowseModule,
     CoreModule,
-    ProfileModule
+    ProfileModule,
+    SearchModule
   ],
   providers: [],
   declarations: [AppComponent],

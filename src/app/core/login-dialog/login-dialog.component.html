@@ -1,4 +1,6 @@
-<h1 mat-dialog-title>Sign in</h1>
+<mat-progress-bar
+  mode="indeterminate"
+  [ngClass]="{ 'hide': !isLoading }"></mat-progress-bar>
 <div mat-dialog-content>
   <mat-form-field>
     <span matPrefix>RA-INT \ &nbsp;</span>
