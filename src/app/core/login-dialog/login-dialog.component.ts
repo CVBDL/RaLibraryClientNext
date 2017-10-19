@@ -21,8 +21,7 @@ export class LoginDialogComponent {
 
   constructor(
     public dialogRef: MatDialogRef<LoginDialogComponent>,
-    private auth: AuthenticationService
-  ) { }
+    private auth: AuthenticationService) { }
 
   onClickSignIn(): void {
     this.isLoading = true;

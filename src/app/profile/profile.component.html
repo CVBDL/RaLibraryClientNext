@@ -1,4 +1,12 @@
 <div fxLayout="column" fxLayoutGap="8px" class="container">
+  <div class="message"
+      *ngIf="isLoading"
+      fxLayout="column"
+      fxLayoutAlign="space-around center">
+    <div class="mat-body-1">{{message}}</div>
+    <mat-progress-bar
+      mode="indeterminate"></mat-progress-bar>
+  </div>
   <ral-card
     *ngFor="let book of books"
     [book]="book.Book"

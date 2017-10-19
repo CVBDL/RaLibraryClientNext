@@ -10,7 +10,7 @@
     <input matInput placeholder="Password" [(ngModel)]="password"  tabindex="2" type="password">
   </mat-form-field>
 </div>
-<div mat-dialog-actions>
+<div fxLayoutAlign="space-around center" mat-dialog-actions>
   <button mat-button (click)="onClickCancel()" tabindex="3">Cancel</button>
   <button color="primary" mat-button (click)="onClickSignIn()" tabindex="3">Sign in</button>
 </div>
