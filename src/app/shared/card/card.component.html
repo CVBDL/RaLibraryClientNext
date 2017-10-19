@@ -7,6 +7,6 @@
     <!-- <p class="ral-card__subtitle mat-body-1">{{book.Subtitle}}</p> -->
     <p class="ral-card__detail mat-body-1">{{book.Authors}}</p>
   </div>
-  <div class="ral-card__badge"
+  <div *ngIf="enableBadge" class="ral-card__badge"
     [ngClass]="{ 'not-available': book.IsBorrowed }"></div>
 </mat-card>

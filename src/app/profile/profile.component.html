@@ -6,6 +6,7 @@
   ></ral-status>
   <ral-card
     *ngFor="let book of books"
+    [enableBadge]="false"
     [book]="book.Book"
     [routerLink]="['/profile/books', book.Book.Id]">
   </ral-card>

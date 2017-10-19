@@ -10,6 +10,7 @@ import { Book } from "../book";
 })
 export class CardComponent implements OnInit {
   @Input() book: Book;
+  @Input() enableBadge: boolean = true;
 
   thumbnailLink: string = '/assets/img/book_cover.jpg';
 
