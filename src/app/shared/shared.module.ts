@@ -4,10 +4,11 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import {
   MatButtonModule,
   MatCardModule,
-  MatIconModule
+  MatIconModule,
+  MatProgressBarModule
 } from '@angular/material';
-
 import { CardComponent } from "./card/card.component";
+import { StatusComponent } from './status/status.component';
 
 @NgModule({
   imports: [
@@ -15,16 +16,19 @@ import { CardComponent } from "./card/card.component";
     FlexLayoutModule,
     MatButtonModule,
     MatCardModule,
-    MatIconModule
+    MatIconModule,
+    MatProgressBarModule
   ],
   exports: [
     MatButtonModule,
     CardComponent,
     FlexLayoutModule,
-    MatIconModule
+    MatIconModule,
+    StatusComponent
   ],
   declarations: [
-    CardComponent
+    CardComponent,
+    StatusComponent
   ]
 })
 export class SharedModule { }

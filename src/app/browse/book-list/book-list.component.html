@@ -1,4 +1,9 @@
 <div fxLayout="column" fxLayoutGap="8px" class="container">
+  <ral-status
+    *ngIf="isLoading"
+    [message]="message"
+    [showProgress]="true"
+  ></ral-status>
   <ral-card
     *ngFor="let book of books"
     [book]="book"
