@@ -11,9 +11,16 @@ import { Book } from "../book";
 export class CardComponent implements OnInit {
   @Input() book: Book;
 
+  thumbnailLink: string = '/assets/img/book_cover.jpg';
+
   ngOnInit() {
-    if (this.book && !this.book.ThumbnailLink) {
-      this.book.ThumbnailLink = '/assets/img/book_cover.jpg';
+    if (this.book.ThumbnailLink) {
+      let img = new Image();
+      img.src = this.book.ThumbnailLink;
+      img.onload = () => {
+        this.thumbnailLink = this.book.ThumbnailLink;
+        img = null;
+      };
     }
   }
 
