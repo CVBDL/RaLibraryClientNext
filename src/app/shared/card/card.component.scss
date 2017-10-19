@@ -5,14 +5,15 @@
 .mat-card {
   display: flex;
   flex-direction: row;
+  position: relative;
 }
 
 .ral-card__thumbnail {
   flex: 0 1 auto;
 
   img {
-    max-width: 128px;
-    width: 128px;
+    max-width: 64px;
+    width: 64px;
     height: auto;
   }
 }
@@ -34,4 +35,19 @@
   &:last-child {
     margin: 0;
   }
+}
+
+.ral-card__badge {
+  background-color: #4CAF50;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  font-size: 14px;
+  position: absolute;
+  top: 24px;
+  right: 16px;
+}
+
+.not-available {
+  background-color: #F44336;  
 }

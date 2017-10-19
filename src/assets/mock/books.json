@@ -29,7 +29,7 @@
   "ThumbnailLink": "https://img1.doubanio.com/mpic/s6519128.jpg",
   "CreatedDate": "2017-09-26T08:10:44.687",
   "RowVersion": "AAAAAAAAB9I=",
-  "IsBorrowed": false
+  "IsBorrowed": true
 }, {
   "Id": 4,
   "Code": "P004",
