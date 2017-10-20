@@ -1,10 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { FormsModule } from '@angular/forms';
-import {
-  HttpClientModule,
-  HTTP_INTERCEPTORS
-} from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import {
   MatButtonModule,
   MatDialogModule,
@@ -12,15 +9,16 @@ import {
   MatProgressBarModule,
   MatTabsModule
 } from '@angular/material';
-import { NgModule, Optional, SkipSelf } from "@angular/core";
+import { NgModule } from "@angular/core";
 import { RouterModule } from '@angular/router';
+
+import { SharedModule } from "../shared/shared.module";
 
 import { AuthenticationService } from "./authentication.service";
 import { BooksService } from "./books.service";
-import { LoginDialogComponent } from './login-dialog/login-dialog.component';
 import { Interceptor } from "./interceptor.service";
+import { LoginDialogComponent } from './login-dialog/login-dialog.component';
 import { NavComponent } from './nav/nav.component';
-import { throwIfAlreadyLoaded } from './module-import-guard';
 import { UsersService } from "./users.service";
 
 @NgModule({
@@ -34,7 +32,8 @@ import { UsersService } from "./users.service";
     MatInputModule,
     MatProgressBarModule,
     MatTabsModule,
-    RouterModule
+    RouterModule,
+    SharedModule
   ],
   exports: [
     NavComponent
@@ -51,12 +50,7 @@ import { UsersService } from "./users.service";
   ],
   declarations: [
     LoginDialogComponent,
-    NavComponent,
-    LoginDialogComponent
+    NavComponent
   ]
 })
-export class CoreModule {
-  constructor( @Optional() @SkipSelf() parentModule: CoreModule) {
-    throwIfAlreadyLoaded(parentModule, 'CoreModule');
-  }
-}
+export class CoreModule { }
