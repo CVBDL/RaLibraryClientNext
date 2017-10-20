@@ -32,9 +32,7 @@ export class ProfileComponent implements OnInit {
         this.loadBorrowedBooks();
 
       } else {
-        let dialogRef = this.dialog.open(LoginDialogComponent, {
-          //width: '250px'
-        });
+        let dialogRef = this.dialog.open(LoginDialogComponent);
   
         dialogRef.afterClosed().subscribe(() => {
           if (this.auth.isAuthenticated) {
@@ -43,6 +41,10 @@ export class ProfileComponent implements OnInit {
         });
       }
     });
+  }
+
+  onClickProfile(): void {
+    let dialogRef = this.dialog.open(LoginDialogComponent);
   }
 
   private loadBorrowedBooks(): void {

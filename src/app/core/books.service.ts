@@ -38,6 +38,32 @@ export class BooksService {
     return this.getRemote(id);
   }
 
+  /**
+   * Internal use.
+   */
+  _borrowFromCache(id: number): void {
+    if (this.booksCache && this.booksCache.length) {
+      this.booksCache.forEach(book => {
+        if (book.Id === id) {
+          book.IsBorrowed = true;
+        }
+      });
+    }
+  }
+
+  /**
+   * Internal use.
+   */
+  _returnFromCache(id: number): void {
+    if (this.booksCache && this.booksCache.length) {
+      this.booksCache.forEach(book => {
+        if (book.Id === id) {
+          book.IsBorrowed = false;
+        }
+      });
+    }
+  }
+
   private getRemote(id: number): Observable<Book> {
     return this.http
     .get<Book[]>(this.rootEndpoint)

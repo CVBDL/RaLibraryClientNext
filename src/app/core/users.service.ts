@@ -7,6 +7,7 @@ import 'rxjs/add/observable/of';
 import 'rxjs/add/observable/from';
 
 import { Book } from "../shared/book";
+import { BooksService } from "../core/books.service";
 import { BorrowedBook } from "../shared/borrowed-book";
 
 @Injectable()
@@ -15,7 +16,9 @@ export class UsersService {
   private profileCache: UserProfile = null;
   private borrowedBookdsCache: BorrowedBook[] = [];
 
-  constructor(private http: HttpClient) { }
+  constructor(
+    private http: HttpClient,
+    private booksService: BooksService) { }
 
   getProfile(): Observable<UserProfile> {
     const endpoint = this.rootEndpoint + '/details';
@@ -43,12 +46,14 @@ export class UsersService {
 
   borrow(id: number) {
     const endpoint = `${this.rootEndpoint}/books/${id}`;
-    return this.http.post(endpoint, '');
+    return this.http.post(endpoint, '')
+      .do(() => this.booksService._borrowFromCache(id));
   }
 
   return(id: number) {
     const endpoint = `${this.rootEndpoint}/books/${id}`;
-    return this.http.delete(endpoint);
+    return this.http.delete(endpoint)
+      .do(() => this.booksService._returnFromCache(id));
   }
 }
 
