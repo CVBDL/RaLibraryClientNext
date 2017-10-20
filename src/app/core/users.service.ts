@@ -2,6 +2,7 @@ import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 
 import { Observable } from "rxjs/Observable";
+import "rxjs/add/operator/do";
 import 'rxjs/add/observable/of';
 import 'rxjs/add/observable/from';
 
@@ -29,10 +30,6 @@ export class UsersService {
   }
 
   listBorrowedBooks(): Observable<BorrowedBook[]> {
-    // return Observable.of([{"Borrower":"PZhong@ra.rockwell.com","BorrowTime":"2017-10-18T06:40:41.333","ExpectedReturnTime":"2018-01-16T06:40:41.333","Book":{"Id":1,"Code":"P001","ISBN10":"0596008031","ISBN13":"9780596008031","Title":"Designing Interfaces","Subtitle":"Patterns for Effective Interaction Design","Authors":"Jenifer Tidwell","Publisher":"\"O'Reilly Media, Inc.\"","PublishedDate":"2005-11-21","Description":"Provides information on designing easy-to-use interfaces.","PageCount":331,"ThumbnailLink":"http://books.google.com/books/content?id=1D2bAgAAQBAJ&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api","CreatedDate":"2017-10-18T14:33:52.64","RowVersion":"AAAAAAAAB9E=", "IsBorrowed": true}}])
-    //   .do((data) => {
-    //     this.borrowedBookdsCache = data;
-    //   });
     const endpoint = this.rootEndpoint + '/books';
     return this.http.get<BorrowedBook[]>(endpoint)
       .do((data) => {
