@@ -22,7 +22,7 @@
     </div>
     <div fxFlex="nogrow" fxLayout="column" fxLayoutGap="16px" class="ral-book-detail__header__right">
       <img [src]="book?.Book.ThumbnailLink">
-      <button mat-raised-button color="primary"
+      <button *ngIf="!isReturned" mat-raised-button color="primary"
         (click)="returnBook(book.Book.Id)">Return</button>
     </div>
   </div>

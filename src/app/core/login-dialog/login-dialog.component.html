@@ -12,5 +12,5 @@
 </div>
 <div fxLayoutAlign="space-around center" mat-dialog-actions>
   <button mat-button (click)="onClickCancel()" tabindex="3">Cancel</button>
-  <button color="primary" mat-button (click)="onClickSignIn()" tabindex="3">Sign in</button>
+  <button color="primary" mat-button [attr.disabled]="isLoading" (click)="onClickSignIn()" tabindex="3">Sign in</button>
 </div>

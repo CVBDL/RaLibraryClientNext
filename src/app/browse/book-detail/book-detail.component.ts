@@ -1,6 +1,6 @@
 import { ActivatedRoute, ParamMap } from "@angular/router";
 import { Component, OnInit } from '@angular/core';
-import { MatDialog } from '@angular/material';
+import { MatDialog, MatSnackBar } from '@angular/material';
 
 import { Observable } from 'rxjs/Rx';
 
@@ -17,9 +17,11 @@ import 'rxjs/add/operator/switchMap';
 })
 export class BookDetailComponent implements OnInit {
   book: Book;
+  isBorrowed: boolean = true;
 
   constructor(
     public dialog: MatDialog,
+    public snackBar: MatSnackBar,
     private route: ActivatedRoute,
     private booksService: BooksService,
     private auth: AuthenticationService,
@@ -32,26 +34,44 @@ export class BookDetailComponent implements OnInit {
     ).subscribe(book => {
       this.book = book;
       
-      if (this.book && !this.book.ThumbnailLink) {
-        this.book.ThumbnailLink = '/assets/img/book_cover.jpg';
+      if (this.book) {
+        this.isBorrowed = book.IsBorrowed;
+
+        if (!this.book.ThumbnailLink) {
+          this.book.ThumbnailLink = '/assets/img/book_cover.jpg';
+        }
       }
     });
+
   }
 
   borrowBook(id: number): void {
     if (!this.auth.isAuthenticated) {
-      let dialogRef = this.dialog.open(LoginDialogComponent, {
-        width: '250px'
-      });
+      let dialogRef = this.dialog.open(LoginDialogComponent);
 
       dialogRef.afterClosed().subscribe(() => {
         if (this.auth.isAuthenticated) {
-          this.usersService.borrow(id).subscribe();
+          this.borrow(id);
         }
       });
     } else {
-      this.usersService.borrow(id).subscribe();
+      this.borrow(id);
     }
+  }
+
+  private borrow(id: number) {
+    this.usersService.borrow(id).subscribe(() => {
+      this.showMessage('Success', 'Borrow');
+      this.isBorrowed = true;
+    }, () => {
+      this.showMessage('Failed', 'Borrow');
+    });
+  }
+
+  private showMessage(message: string, action: string): void {
+    this.snackBar.open(message, action, {
+      duration: 5000,
+    });
   }
 
 }

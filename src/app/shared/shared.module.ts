@@ -6,7 +6,8 @@ import {
   MatCardModule,
   MatIconModule,
   MatInputModule,
-  MatProgressBarModule
+  MatProgressBarModule,
+  MatSnackBarModule
 } from '@angular/material';
 
 import { CardComponent } from "./card/card.component";
@@ -28,6 +29,7 @@ import { StatusComponent } from './status/status.component';
     MatCardModule,
     MatIconModule,
     MatInputModule,
+    MatSnackBarModule,
     StatusComponent
   ],
   declarations: [

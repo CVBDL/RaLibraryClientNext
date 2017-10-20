@@ -1,6 +1,7 @@
 import { ActivatedRoute, ParamMap } from "@angular/router";
 import { Component, OnInit } from '@angular/core';
 import { DatePipe } from '@angular/common';
+import { MatSnackBar } from '@angular/material';
 
 import { Observable } from 'rxjs/Rx';
 import 'rxjs/add/operator/filter';
@@ -16,8 +17,10 @@ import 'rxjs/add/operator/switchMap';
 })
 export class BorrowBookDetailComponent implements OnInit {
   book: BorrowedBook;
+  isReturned: boolean = false;
 
   constructor(
+    public snackBar: MatSnackBar,
     private route: ActivatedRoute,
     private booksService: BooksService,
     private usersService: UsersService
@@ -38,10 +41,21 @@ export class BorrowBookDetailComponent implements OnInit {
   }
 
   returnBook(id: number): void {
-    this.usersService.return(id)
-      .subscribe(
-        () => console.log('success'),
-        (err) => console.log(err)
-      );
+    this.return(id);
+  }
+
+  private return(id: number) {
+    this.usersService.return(id).subscribe(() => {
+      this.showMessage('Success', 'Return');
+      this.isReturned = true;
+    }, () => {
+      this.showMessage('Failed', 'Return');
+    });
+  }
+
+  private showMessage(message: string, action: string): void {
+    this.snackBar.open(message, action, {
+      duration: 5000,
+    });
   }
 }

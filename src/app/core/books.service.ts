@@ -8,7 +8,7 @@ import { Book } from "../shared/book";
 
 @Injectable()
 export class BooksService {
-  readonly rootEndpoint: string = '/assets/mock/books.json';
+  readonly rootEndpoint: string = 'https://APCNDAEC3YCS12.ra-int.com/ralibrary/api/books';
 
   constructor(private http: HttpClient) { }
 
