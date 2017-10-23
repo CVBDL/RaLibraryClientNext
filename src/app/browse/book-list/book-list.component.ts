@@ -11,6 +11,7 @@ export class BookListComponent implements OnInit {
   books: Book[];
   message: string = "Getting books";
   isLoading: boolean = false;
+  isError: boolean = false;
   
   constructor(private booksService: BooksService) { }
   
@@ -18,10 +19,12 @@ export class BookListComponent implements OnInit {
     this.isLoading = true;
     this.booksService.list().subscribe(data => {
       this.isLoading = false;
+      this.isError = false;
       this.books = data;
+
     }, (err) => {
       this.isLoading = false;
-      console.log(err);
+      this.isError = true;
     });
   }
 
