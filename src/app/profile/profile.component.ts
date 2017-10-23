@@ -47,11 +47,21 @@ export class ProfileComponent implements OnInit {
     let dialogRef = this.dialog.open(LoginDialogComponent);
   }
 
+  onClickRefresh(): void {
+    this.books = [];
+
+    if (this.auth.isAuthenticated) {
+      this.loadBorrowedBooks();
+    }
+  }
+
   private loadBorrowedBooks(): void {
     this.isLoading = true;
+
     this.usersService.listBorrowedBooks().subscribe((data) => {
       this.isLoading = false;
       this.books = data;
+
     }, (err) => {
       this.isLoading = false;
       console.log(err);

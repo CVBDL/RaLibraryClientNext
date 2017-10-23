@@ -1,5 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
-
+import { Component, OnInit } from '@angular/core';
 import {
   MatDialog,
   MatDialogRef,
@@ -15,12 +14,13 @@ import { UsersService } from "../users.service";
   styleUrls: ['./login-dialog.component.scss']
 })
 export class LoginDialogComponent implements OnInit {
+  username: string;
+  password: string;
+  hasError: boolean = false;
+
   private isLoading: boolean = false;
   private isSignIn: boolean = false;
   private name: string;
-
-  username: string;
-  password: string;
 
   constructor(
     public dialogRef: MatDialogRef<LoginDialogComponent>,
@@ -29,34 +29,41 @@ export class LoginDialogComponent implements OnInit {
 
   ngOnInit(): void {
     this.isSignIn = this.auth.isAuthenticated;
+
     if (this.isSignIn) {
       this.usersService.getProfile()
         .subscribe(data => {
           this.name = data.Name;
-        })
+        });
     }
   }
 
   onClickSignIn(): void {
     this.isLoading = true;
+
     this.auth.login(this.username, this.password)
       .subscribe(() => {
         this.isLoading = false;
+        this.hasError = false;
         this.dialogRef.close();
+
       }, () => {
         this.isLoading = false;
-        this.dialogRef.close();
+        this.hasError = true;
       });
   }
 
   onClickSignOut(): void {
-    this.isLoading = false;
     this.auth.logout();
+    this.isLoading = false;
     this.isSignIn = false;
+    this.hasError = false;
     this.dialogRef.close();
   }
 
   onClickCancel(): void {
+    this.isLoading = false;
+    this.hasError = false;
     this.dialogRef.close();
   }
 

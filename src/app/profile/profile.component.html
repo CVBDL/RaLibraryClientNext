@@ -1,4 +1,11 @@
-<ral-user-toolbar (profile)="onClickProfile()"></ral-user-toolbar>
+<ral-user-toolbar>
+  <button mat-icon-button (click)="onClickRefresh()" color="primary">
+    <mat-icon aria-label="Refresh">refresh</mat-icon>
+  </button>
+  <button mat-icon-button (click)="onClickProfile()" color="primary">
+    <mat-icon aria-label="User profile">person_outline</mat-icon>
+  </button>
+</ral-user-toolbar>
 <div fxLayout="column" fxLayoutGap="8px" class="container">
   <ral-status
     *ngIf="isLoading"

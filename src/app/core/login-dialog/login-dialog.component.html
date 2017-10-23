@@ -4,17 +4,22 @@
 <div mat-dialog-content *ngIf="!isSignIn">
   <mat-form-field>
     <span matPrefix>RA-INT \ &nbsp;</span>
-    <input matInput placeholder="Username" [(ngModel)]="username" tabindex="1">
+    <input matInput [(ngModel)]="username" placeholder="Username"
+      tabindex="1" type="text">
   </mat-form-field>
   <mat-form-field>
-    <input matInput placeholder="Password" [(ngModel)]="password"  tabindex="2" type="password">
+    <input matInput [(ngModel)]="password" placeholder="Password"
+      tabindex="2" type="password">
   </mat-form-field>
+  <div *ngIf="hasError" class="caption message">Failed. Try again.</div>
 </div>
 <div mat-dialog-content *ngIf="isSignIn">
   <h2 class="title">Hi, {{name}}</h2>
 </div>
 <div fxLayoutAlign="space-around center" mat-dialog-actions>
-  <button mat-button (click)="onClickCancel()" tabindex="3">Cancel</button>
-  <button *ngIf="!isSignIn" color="primary" mat-button [attr.disabled]="isLoading" (click)="onClickSignIn()" tabindex="3">Sign in</button>
-  <button *ngIf="isSignIn" color="primary" mat-button [attr.disabled]="isLoading" (click)="onClickSignOut()" tabindex="3">Sign out</button>
+  <button mat-button (click)="onClickCancel()" tabindex="4">Cancel</button>
+  <button mat-button *ngIf="!isSignIn" [disabled]="isLoading"
+    (click)="onClickSignIn()" color="primary"  tabindex="3">Sign in</button>
+  <button mat-button *ngIf="isSignIn" [disabled]="isLoading"
+    (click)="onClickSignOut()" color="primary" tabindex="3">Sign out</button>
 </div>
