@@ -1,5 +1,15 @@
-<form class="example-form">
-  <mat-form-field class="example-full-width">
-    <input matInput placeholder="Search by title, author, ISBN" value="">
-  </mat-form-field>
-</form>
+<div class="container" fxLayout="column">
+  <form fxFlex="none" class="search-form">
+    <mat-form-field>
+      <input name="keyword" matInput placeholder="Title" [(ngModel)]="keyword" (keyup.enter)="search(keyword)">
+      <mat-icon matSuffix>search</mat-icon>
+    </mat-form-field>
+  </form>
+  <div class="result" fxFlex fxLayout="column" fxLayoutGap="8px">
+    <ral-card
+      *ngFor="let book of books"
+      [book]="book"
+      [routerLink]="['/browse/books', book.Id]">
+    </ral-card>
+  </div>
+</div>
