@@ -11,6 +11,7 @@ import { BooksService } from "../core/books.service";
 export class SearchComponent {
   books: Book[];
   keyword: string = '';
+  message: string = 'Getting books';
 
   private isSearching: boolean = false;
 

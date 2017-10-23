@@ -1,11 +1,20 @@
 <div class="container" fxLayout="column">
-  <form fxFlex="none" class="search-form">
-    <mat-form-field>
-      <input name="keyword" matInput placeholder="Title" [(ngModel)]="keyword" (keyup.enter)="search(keyword)">
-      <mat-icon matSuffix>search</mat-icon>
-    </mat-form-field>
-  </form>
+  <div class="search" fxFlex="none">
+    <mat-card fxLayout="row">
+      <button mat-icon-button fxFlex="none">
+        <mat-icon aria-label="Refresh">search</mat-icon>
+      </button>
+      <input class="input" fxFlex name="keyword" matInput placeholder="Title"
+        [(ngModel)]="keyword" (keyup.enter)="search(keyword)"
+        [disabled]="isSearching">
+    </mat-card>
+  </div>
   <div class="result" fxFlex fxLayout="column" fxLayoutGap="8px">
+    <ral-status
+      *ngIf="isSearching"
+      [message]="message"
+      [showProgress]="true"
+    ></ral-status>
     <ral-card
       *ngFor="let book of books"
       [book]="book"
