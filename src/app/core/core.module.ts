@@ -16,10 +16,12 @@ import { SharedModule } from "../shared/shared.module";
 
 import { AuthenticationService } from "./authentication.service";
 import { BooksService } from "./books.service";
+import { HttpErrorHandlerService } from "./http-error-handler.service";
 import { Interceptor } from "./interceptor.service";
 import { LoginDialogComponent } from './login-dialog/login-dialog.component';
 import { NavComponent } from './nav/nav.component';
 import { UsersService } from "./users.service";
+import { ConfirmationDialogComponent } from './confirmation-dialog/confirmation-dialog.component';
 
 @NgModule({
   imports: [
@@ -41,6 +43,7 @@ import { UsersService } from "./users.service";
   providers: [
     AuthenticationService,
     BooksService,
+    HttpErrorHandlerService,
     UsersService,
     {
       provide: HTTP_INTERCEPTORS,
@@ -49,6 +52,7 @@ import { UsersService } from "./users.service";
     }
   ],
   declarations: [
+    ConfirmationDialogComponent,
     LoginDialogComponent,
     NavComponent
   ]

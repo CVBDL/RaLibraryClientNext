@@ -11,7 +11,7 @@ import {
 } from '@angular/material';
 
 import { CardComponent } from "./card/card.component";
-import { StatusComponent } from './status/status.component';
+import { ProgressComponent } from './progress/progress.component';
 import { TroubleshootingComponent } from './troubleshooting/troubleshooting.component';
 
 @NgModule({
@@ -31,12 +31,12 @@ import { TroubleshootingComponent } from './troubleshooting/troubleshooting.comp
     MatIconModule,
     MatInputModule,
     MatSnackBarModule,
-    StatusComponent,
+    ProgressComponent,
     TroubleshootingComponent
   ],
   declarations: [
     CardComponent,
-    StatusComponent,
+    ProgressComponent,
     TroubleshootingComponent
   ]
 })

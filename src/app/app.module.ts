@@ -10,6 +10,7 @@ import { SearchModule } from "./search/search.module";
 import { FlexLayoutModule } from '@angular/flex-layout';
 
 import { AppComponent } from './app.component';
+import { ConfirmationDialogComponent } from "./core/confirmation-dialog/confirmation-dialog.component";
 import { LoginDialogComponent } from "./core/login-dialog/login-dialog.component";
 
 @NgModule({
@@ -26,6 +27,9 @@ import { LoginDialogComponent } from "./core/login-dialog/login-dialog.component
   providers: [],
   declarations: [AppComponent],
   bootstrap: [AppComponent],
-  entryComponents: [LoginDialogComponent]
+  entryComponents: [
+    ConfirmationDialogComponent,
+    LoginDialogComponent
+  ]
 })
 export class AppModule { }

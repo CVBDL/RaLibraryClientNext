@@ -15,7 +15,6 @@ import { UsersService } from "../core/users.service";
 })
 export class ProfileComponent implements OnInit {
   books: BorrowedBook[];
-  message: string = "Getting your books";
   isLoading: boolean = false;
 
   constructor(

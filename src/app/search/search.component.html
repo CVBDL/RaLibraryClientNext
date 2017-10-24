@@ -1,7 +1,7 @@
 <div class="container" fxLayout="column">
   <div class="search" fxFlex="none">
     <mat-card fxLayout="row">
-      <button mat-icon-button fxFlex="none">
+      <button mat-icon-button fxFlex="none" class="search-btn">
         <mat-icon aria-label="Refresh">search</mat-icon>
       </button>
       <input class="input" fxFlex name="keyword" matInput placeholder="Title"
@@ -10,11 +10,7 @@
     </mat-card>
   </div>
   <div class="result" fxFlex fxLayout="column" fxLayoutGap="8px">
-    <ral-status
-      *ngIf="isSearching"
-      [message]="message"
-      [showProgress]="true"
-    ></ral-status>
+    <ral-progress *ngIf="isSearching" message="Getting books"></ral-progress>
     <ral-card
       *ngFor="let book of books"
       [book]="book"

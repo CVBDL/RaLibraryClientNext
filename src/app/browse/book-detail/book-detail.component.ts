@@ -3,10 +3,13 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialog, MatSnackBar } from '@angular/material';
 
 import { Observable } from 'rxjs/Rx';
+import "rxjs/add/operator/filter";
 
 import { AuthenticationService } from "../../core/authentication.service";
 import { Book } from "../../shared/book";
 import { BooksService } from "../../core/books.service";
+import { ConfirmationDialogComponent } from "../../core/confirmation-dialog/confirmation-dialog.component";
+import { HttpErrorHandlerService } from "../../core/http-error-handler.service";
 import { LoginDialogComponent } from "../../core/login-dialog/login-dialog.component";
 import { UsersService } from "../../core/users.service";
 import 'rxjs/add/operator/switchMap';
@@ -22,16 +25,17 @@ export class BookDetailComponent implements OnInit {
   constructor(
     public dialog: MatDialog,
     public snackBar: MatSnackBar,
-    private route: ActivatedRoute,
-    private booksService: BooksService,
     private auth: AuthenticationService,
-    private usersService: UsersService
-  ) { }
+    private booksService: BooksService,
+    private errHandler: HttpErrorHandlerService,
+    private route: ActivatedRoute,
+    private usersService: UsersService) { }
 
   ngOnInit() {
-    this.route.paramMap.switchMap(
-      (params: ParamMap) => this.booksService.get(Number(params.get('id')))
-    ).subscribe(book => {
+    this.route.paramMap
+      .switchMap((params: ParamMap) =>
+        this.booksService.get(Number(params.get('id'))))
+      .subscribe(book => {
       this.book = book;
       
       if (this.book) {
@@ -51,21 +55,37 @@ export class BookDetailComponent implements OnInit {
 
       dialogRef.afterClosed().subscribe(() => {
         if (this.auth.isAuthenticated) {
-          this.borrow(id);
+          this.confirm()
+            .filter(data => data === true)
+            .subscribe(() => this.borrow(id));
         }
       });
     } else {
-      this.borrow(id);
+      this.confirm()
+        .filter(data => data === true)
+        .subscribe(() => this.borrow(id));
     }
   }
 
-  private borrow(id: number) {
-    this.usersService.borrow(id).subscribe(() => {
-      this.showMessage('Success', 'Borrow');
-      this.isBorrowed = true;
-    }, () => {
-      this.showMessage('Failed', 'Borrow');
+  private confirm(): Observable<boolean> {
+    let confirmDialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      data: {
+        title: 'Are you sure to borrow this book?'
+      }
     });
+
+    return confirmDialogRef.afterClosed();
+  }
+
+  private borrow(id: number) {
+    this.usersService.borrow(id).subscribe(
+      () => {
+        this.showMessage('Success', 'Borrow');
+        this.isBorrowed = true;
+      },
+      err => {
+        this.errHandler.handle(err);
+      });
   }
 
   private showMessage(message: string, action: string): void {

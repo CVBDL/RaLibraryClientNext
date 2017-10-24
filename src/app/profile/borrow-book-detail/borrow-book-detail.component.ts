@@ -1,14 +1,17 @@
 import { ActivatedRoute, ParamMap } from "@angular/router";
 import { Component, OnInit } from '@angular/core';
 import { DatePipe } from '@angular/common';
-import { MatSnackBar } from '@angular/material';
+import { MatDialog, MatSnackBar } from '@angular/material';
 
 import { Observable } from 'rxjs/Rx';
 import 'rxjs/add/operator/filter';
 
 import { BorrowedBook } from "../../shared/borrowed-book";
 import { BooksService } from "../../core/books.service";
+import { ConfirmationDialogComponent } from "../../core/confirmation-dialog/confirmation-dialog.component";
+import { HttpErrorHandlerService } from "../../core/http-error-handler.service";
 import { UsersService } from "../../core/users.service";
+import 'rxjs/add/operator/filter';
 import 'rxjs/add/operator/switchMap';
 
 @Component({
@@ -20,9 +23,11 @@ export class BorrowBookDetailComponent implements OnInit {
   isReturned: boolean = false;
 
   constructor(
+    public dialog: MatDialog,
     public snackBar: MatSnackBar,
     private route: ActivatedRoute,
     private booksService: BooksService,
+    private errHandler: HttpErrorHandlerService,
     private usersService: UsersService
   ) { }
 
@@ -41,15 +46,27 @@ export class BorrowBookDetailComponent implements OnInit {
   }
 
   returnBook(id: number): void {
-    this.return(id);
+    this.confirm()
+      .filter(data => data === true)
+      .subscribe(() => this.return(id));
+  }
+
+  private confirm(): Observable<boolean> {
+    let confirmDialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      data: {
+        title: 'Are you sure to return this book?'
+      }
+    });
+
+    return confirmDialogRef.afterClosed();
   }
 
   private return(id: number) {
     this.usersService.return(id).subscribe(() => {
       this.showMessage('Success', 'Return');
       this.isReturned = true;
-    }, () => {
-      this.showMessage('Failed', 'Return');
+    }, (err) => {
+      this.errHandler.handle(err);
     });
   }
 
