@@ -59,11 +59,17 @@ export class ProfileComponent implements OnInit {
 
     this.usersService.listBorrowedBooks().subscribe((data) => {
       this.isLoading = false;
-      this.books = data;
+      this.books = this.sortBooks(data);
 
     }, (err) => {
       this.isLoading = false;
       console.log(err);
+    });
+  }
+
+  private sortBooks(books: BorrowedBook[]): BorrowedBook[] {
+    return books.sort((a, b) => {
+      return new Date(b.ExpectedReturnTime).getTime() - new Date(a.ExpectedReturnTime).getTime();
     });
   }
 

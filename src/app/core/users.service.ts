@@ -33,6 +33,7 @@ export class UsersService {
   }
 
   listBorrowedBooks(): Observable<BorrowedBook[]> {
+    // return this.http.get<BorrowedBook[]>('/assets/mock/borrow-books.json');;
     const endpoint = this.rootEndpoint + '/books';
     return this.http.get<BorrowedBook[]>(endpoint)
       .do((data) => {
