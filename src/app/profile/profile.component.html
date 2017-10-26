@@ -1,41 +1,45 @@
-<ral-user-toolbar>
-  <button mat-icon-button (click)="onClickRefresh()" color="primary">
-    <mat-icon aria-label="Refresh">refresh</mat-icon>
-  </button>
-  <button mat-icon-button (click)="onClickProfile()" color="primary">
-    <mat-icon aria-label="User profile">person_outline</mat-icon>
-  </button>
-</ral-user-toolbar>
-<div fxLayout="column" fxLayoutGap="8px" class="container">
-  <ral-progress *ngIf="isLoading" message="Getting your books"></ral-progress>
-  <div *ngIf="overdueBooks?.length" class="overdue" fxLayout="row" fxLayoutAlign="start center">
-    <mat-icon aria-label="Overdue books">sentiment_very_dissatisfied</mat-icon>
-    <span class="mat-caption">Overdue ({{overdueBooks?.length || 0}})</span>
+<div class="container" fxLayout="column">
+  <div fxFlex="none">
+    <ral-user-toolbar>
+      <button mat-icon-button (click)="onClickRefresh()" color="primary">
+        <mat-icon aria-label="Refresh">refresh</mat-icon>
+      </button>
+      <button mat-icon-button (click)="onClickProfile()" color="primary">
+        <mat-icon aria-label="User profile">person_outline</mat-icon>
+      </button>
+    </ral-user-toolbar>
   </div>
-  <ral-card
-    *ngFor="let book of overdueBooks"
-    [enableBadge]="false"
-    [book]="book.Book"
-    [routerLink]="['/profile/books', book.Book.Id]">
-  </ral-card>
-  <div *ngIf="willOverdueBooks?.length" class="will-overdue" fxLayout="row" fxLayoutAlign="start center">
-    <mat-icon aria-label="Overdue soon">sentiment_neutral</mat-icon>
-    <span class="mat-caption">Overdue Soon ({{willOverdueBooks?.length || 0}})</span>
+  <div class="list" fxFlex fxLayout="column" fxLayoutGap="8px">
+    <ral-progress *ngIf="isLoading" message="Getting your books"></ral-progress>
+    <div fxFlex="none" *ngIf="overdueBooks?.length" class="overdue" fxLayout="row" fxLayoutAlign="start center">
+      <mat-icon aria-label="Overdue books">sentiment_very_dissatisfied</mat-icon>
+      <span class="mat-caption">Overdue ({{overdueBooks?.length || 0}})</span>
+    </div>
+    <ral-card
+      *ngFor="let book of overdueBooks"
+      [enableBadge]="false"
+      [book]="book.Book"
+      [routerLink]="['/profile/books', book.Book.Id]">
+    </ral-card>
+    <div fxFlex="none" *ngIf="willOverdueBooks?.length" class="will-overdue" fxLayout="row" fxLayoutAlign="start center">
+      <mat-icon aria-label="Overdue soon">sentiment_neutral</mat-icon>
+      <span class="mat-caption">Overdue Soon ({{willOverdueBooks?.length || 0}})</span>
+    </div>
+    <ral-card
+      *ngFor="let book of willOverdueBooks"
+      [enableBadge]="false"
+      [book]="book.Book"
+      [routerLink]="['/profile/books', book.Book.Id]">
+    </ral-card>
+    <div fxFlex="none" *ngIf="normalBooks?.length" class="normal" fxLayout="row" fxLayoutAlign="start center">
+      <mat-icon aria-label="Enjoy reading">sentiment_very_satisfied</mat-icon>
+      <span class="mat-caption">Enjoy Reading ({{normalBooks?.length || 0}})</span>
+    </div>
+    <ral-card
+      *ngFor="let book of normalBooks"
+      [enableBadge]="false"
+      [book]="book.Book"
+      [routerLink]="['/profile/books', book.Book.Id]">
+    </ral-card>
   </div>
-  <ral-card
-    *ngFor="let book of willOverdueBooks"
-    [enableBadge]="false"
-    [book]="book.Book"
-    [routerLink]="['/profile/books', book.Book.Id]">
-  </ral-card>
-  <div *ngIf="normalBooks?.length" class="normal" fxLayout="row" fxLayoutAlign="start center">
-    <mat-icon aria-label="Enjoy reading">sentiment_very_satisfied</mat-icon>
-    <span class="mat-caption">Enjoy Reading ({{normalBooks?.length || 0}})</span>
-  </div>
-  <ral-card
-    *ngFor="let book of normalBooks"
-    [enableBadge]="false"
-    [book]="book.Book"
-    [routerLink]="['/profile/books', book.Book.Id]">
-  </ral-card>
 </div>
