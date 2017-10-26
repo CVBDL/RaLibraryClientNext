@@ -20,7 +20,7 @@ export class ProfileComponent implements OnInit {
   normalBooks: BorrowedBook[];
   isLoading: boolean = false;
 
-  private threshold: number = 7 * 24 * 60 * 60 * 1000;
+  private readonly threshold: number = 7 * 24 * 60 * 60 * 1000;
 
   constructor(
     public dialog: MatDialog,
