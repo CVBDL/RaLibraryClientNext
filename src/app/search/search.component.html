@@ -1,20 +1,21 @@
 <div class="container" fxLayout="column">
   <div class="search" fxFlex="none">
-    <mat-card fxLayout="row">
-      <button mat-icon-button fxFlex="none" class="search-btn">
-        <mat-icon aria-label="Refresh">search</mat-icon>
-      </button>
+    <mat-card class="search-bar" fxLayout="row">
       <input class="input" fxFlex name="keyword" matInput placeholder="Title"
         [(ngModel)]="keyword" (keyup.enter)="search(keyword)"
         [disabled]="isSearching">
+      <button mat-icon-button (click)="search(keyword)" color="primary">
+        <mat-icon aria-label="Search">search</mat-icon>
+      </button>
     </mat-card>
   </div>
-  <div class="result" fxFlex fxLayout="column" fxLayoutGap="8px">
-    <ral-progress *ngIf="isSearching" message="Getting books"></ral-progress>
-    <ral-card
-      *ngFor="let book of books"
-      [book]="book"
-      [routerLink]="['/browse/books', book.Id]">
-    </ral-card>
+  <div class="result" fxLayout="row" fxLayoutWrap fxFlex="initial">
+    <div class="card-container"
+        *ngFor="let book of books"
+        fxFlex="100" fxFlex.sm="50" fxFlex.md="33" fxFlex.gt-md="25">
+      <ral-card
+        [book]="book"
+        [routerLink]="['/browse/books', book.Id]"></ral-card>
+    </div>
   </div>
 </div>

@@ -5,11 +5,12 @@
 }
 
 .container {
+  padding: 8px;
   height: 100%;
 }
 
 .search {
-  padding: 8px;
+  //padding: 8px;
 }
 
 .search-btn {
@@ -22,8 +23,10 @@
   appearance: none;
 }
 
-.mat-card {
+.search-bar {
   padding: 0;
+  padding-left: 8px;
+  margin: 8px;
 }
 
 .search-form {
@@ -37,5 +40,9 @@
 .result {
   overflow-y: scroll;
   overflow-x: hidden;
+  padding: 8px;
+}
+
+.card-container {
   padding: 8px;
 }

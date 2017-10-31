@@ -1,8 +1,12 @@
-<div fxLayout="column" fxLayoutGap="8px" class="container">
-  <ral-progress *ngIf="isLoading" message="Getting books"></ral-progress>
-  <ral-card
-    *ngFor="let book of books"
-    [book]="book"
-    [routerLink]="['/browse/books', book.Id]">
-  </ral-card>
+<div fxLayout="row" class="container" fxLayoutWrap>
+  <div *ngIf="isLoading" fxFlex="100">
+    <ral-progress message="Getting books"></ral-progress>
+  </div>
+  <div class="card-container"
+      *ngFor="let book of books"
+      fxFlex="100" fxFlex.sm="50" fxFlex.md="33" fxFlex.gt-md="25">
+    <ral-card
+      [book]="book"
+      [routerLink]="['/browse/books', book.Id]"></ral-card>
+  </div>
 </div>

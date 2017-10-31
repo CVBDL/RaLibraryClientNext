@@ -1,9 +1,7 @@
-<nav mat-tab-nav-bar [ngClass.xs]="'xs'">
+<nav mat-tab-nav-bar>
   <a mat-tab-link class="item"
      *ngFor="let link of navLinks"
      [routerLink]="link.path"
      routerLinkActive #rla="routerLinkActive"
-     [active]="rla.isActive">
-    {{link.label}}
-  </a>
+     [active]="rla.isActive">{{link.label}}</a>
 </nav>

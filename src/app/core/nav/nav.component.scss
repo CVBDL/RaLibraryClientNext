@@ -4,14 +4,12 @@
 }
 
 // Overwrite angular material styles for mobile phone.
-.xs {
-  .mat-tab-links {
-    display: flex;
-  }
+.mat-tab-links {
+  display: flex;
+}
 
-  .mat-tab-link {
-    color: #4CAF50;
-    opacity: .87;
-    flex: 1;
-  }
+.mat-tab-link {
+  color: #4CAF50;
+  opacity: 1 !important;
+  flex: 1;
 }
