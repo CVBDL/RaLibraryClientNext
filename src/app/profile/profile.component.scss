@@ -17,8 +17,14 @@
   margin-top: 80px;
 }
 
+.overdue,
+.will-overdue,
+.normal {
+  padding: 0 8px;
+}
+
 .overdue {
-  color: #F44336;  
+  color: #F44336;
 }
 
 .will-overdue {
@@ -32,5 +38,9 @@
 .list {
   overflow-y: scroll;
   overflow-x: hidden;
+  padding: 8px;
+}
+
+.card-container {
   padding: 8px;
 }

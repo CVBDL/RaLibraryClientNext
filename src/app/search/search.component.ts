@@ -25,9 +25,8 @@ export class SearchComponent {
   }
 
   private filter(books: Book[], keyword: string): Book[] {
-    var filteredBooks: Book[] = [];
+    let filteredBooks: Book[] = [];
     books.forEach(book => {
-      console.log(book.Title.toLowerCase(), keyword)
       if (book.Title.toLowerCase().includes(keyword)) {
         filteredBooks.push(book);
       }
