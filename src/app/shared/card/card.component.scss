@@ -39,16 +39,11 @@
 }
 
 .ral-card__badge {
-  background-color: #4CAF50;
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  font-size: 14px;
   position: absolute;
   top: 24px;
   right: 16px;
 }
 
-.not-available {
-  background-color: #F44336;  
+.disabled {
+  color: rgba(0,0,0,.12);
 }

@@ -4,9 +4,11 @@
   </div>
   <div class="ral-card__content">
     <h2 class="ral-card__title mat-body-1">{{book.Title}}</h2>
-    <!-- <p class="ral-card__subtitle mat-body-1">{{book.Subtitle}}</p> -->
     <p class="ral-card__detail mat-body-1">{{book.Authors}}</p>
+    <p class="ral-card__detail mat-body-1">{{book.PublishedDate}}</p>
   </div>
-  <div *ngIf="enableBadge" class="ral-card__badge"
-    [ngClass]="{ 'not-available': book.IsBorrowed }"></div>
+  <div *ngIf="enableBadge" class="ral-card__badge">
+    <mat-icon color="primary" aria-label="Add shopping cart"
+      [ngClass]="{ 'disabled': book.IsBorrowed }">add_shopping_cart</mat-icon>
+  </div>
 </mat-card>
