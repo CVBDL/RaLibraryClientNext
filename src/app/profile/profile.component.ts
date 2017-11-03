@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material';
 
-import { Observable } from "rxjs/Observable";
+import { Observable } from 'rxjs/Observable';
 
 import { AuthenticationService } from "../core/authentication.service";
 import { BorrowedBook } from "../shared/borrowed-book";
@@ -60,17 +60,17 @@ export class ProfileComponent implements OnInit {
   private loadBorrowedBooks(): void {
     this.isLoading = true;
 
-    this.usersService.listBorrowedBooks().subscribe((data) => {
-      this.isLoading = false;
-      this.books = this.sortBooks(data);
-      this.overdueBooks = this.findOverdueBooks(this.books);
-      this.willOverdueBooks = this.findWillOverdueBooks(this.books);
-      this.normalBooks = this.findNormalBooks(this.books);
-
-    }, (err) => {
-      this.isLoading = false;
-      console.log(err);
-    });
+    this.usersService.listBorrowedBooks()
+      .subscribe(
+        data => {
+          this.isLoading = false;
+          this.books = this.sortBooks(data);
+          this.overdueBooks = this.findOverdueBooks(this.books);
+          this.willOverdueBooks = this.findWillOverdueBooks(this.books);
+          this.normalBooks = this.findNormalBooks(this.books);
+        },
+        err => this.isLoading = false
+      );
   }
 
   private sortBooks(books: BorrowedBook[]): BorrowedBook[] {
@@ -83,7 +83,6 @@ export class ProfileComponent implements OnInit {
     const now = Date.now();
     return books.filter(book => {
       const timestamp = new Date(book.ExpectedReturnTime).getTime();
-
       return timestamp <= now;
     });
   }
@@ -93,7 +92,6 @@ export class ProfileComponent implements OnInit {
 
     return books.filter(book => {
       const timestamp = new Date(book.ExpectedReturnTime).getTime();
-
       return timestamp > now && timestamp <= now + this.threshold;
     });
   }
@@ -103,7 +101,6 @@ export class ProfileComponent implements OnInit {
 
     return books.filter(book => {
       const timestamp = new Date(book.ExpectedReturnTime).getTime();
-
       return timestamp > now + this.threshold;
     });
   }

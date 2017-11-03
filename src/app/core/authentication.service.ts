@@ -1,8 +1,8 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 
-import { Observable } from 'rxjs/Rx';
-import "rxjs/add/operator/do";
+import { Observable } from 'rxjs/Observable';
+import { tap } from 'rxjs/operators';
 
 @Injectable()
 export class AuthenticationService {
@@ -28,10 +28,13 @@ export class AuthenticationService {
     return this.http.post<UserToken>(endpoint, {
       'UserName': username,
       'Password': password
-    }).do((data) => {
-      this._isAuthenticated = true;
-      this._token = data.IdToken;
-    });
+    })
+    .pipe(
+      tap(data => {
+        this._isAuthenticated = true;
+        this._token = data.IdToken;
+      })
+    );
   }
 
   logout() {

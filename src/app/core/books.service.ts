@@ -1,10 +1,10 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 
-import { Observable } from 'rxjs/Rx';
-import "rxjs/add/operator/do";
-import 'rxjs/add/observable/of';
-import 'rxjs/add/operator/switchMap';
+import { Observable } from 'rxjs/Observable';
+import { from } from 'rxjs/observable/from';
+import { of } from 'rxjs/observable/of';
+import { switchMap, tap } from 'rxjs/operators';
 
 import { Book } from "../shared/book";
 
@@ -18,11 +18,13 @@ export class BooksService {
 
   list(force: boolean = false): Observable<Book[]> {
     if (!force && this.booksCache) {
-      return Observable.of<Book[]>(this.booksCache);
+      return of(this.booksCache);
 
     } else {
       return this.http.get<Book[]>(this.rootEndpoint)
-        .do(data => this.booksCache = data);
+        .pipe(
+          tap(data => this.booksCache = data)
+        );
     }
   }
 
@@ -31,7 +33,7 @@ export class BooksService {
       let filteredBook: Book[] = this.booksCache.filter(book => book.Id === id);
 
       if (filteredBook.length) {
-        return Observable.from(filteredBook);
+        return from(filteredBook);
       }
     }
 
@@ -66,12 +68,14 @@ export class BooksService {
 
   private getRemote(id: number): Observable<Book> {
     return this.http
-    .get<Book[]>(this.rootEndpoint)
-    .switchMap(books => {
-      return books.filter(book => {
-        return book.Id === id;
-      });
-    });
+      .get<Book[]>(this.rootEndpoint)
+      .pipe(
+        switchMap(books => {
+          return books.filter(book => {
+            return book.Id === id;
+          });
+        })
+      );
   }
 
 }

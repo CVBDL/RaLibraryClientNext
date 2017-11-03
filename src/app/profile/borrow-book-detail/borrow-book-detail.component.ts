@@ -3,16 +3,15 @@ import { Component, OnInit } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { MatDialog, MatSnackBar } from '@angular/material';
 
-import { Observable } from 'rxjs/Rx';
-import 'rxjs/add/operator/filter';
+import { Observable } from 'rxjs/Observable';
+import { of } from 'rxjs/observable/of';
+import { filter, switchMap, tap } from 'rxjs/operators';
 
 import { BorrowedBook } from "../../shared/borrowed-book";
 import { BooksService } from "../../core/books.service";
 import { ConfirmationDialogComponent } from "../../core/confirmation-dialog/confirmation-dialog.component";
 import { HttpErrorHandlerService } from "../../core/http-error-handler.service";
 import { UsersService } from "../../core/users.service";
-import 'rxjs/add/operator/filter';
-import 'rxjs/add/operator/switchMap';
 
 @Component({
   templateUrl: './borrow-book-detail.component.html',
@@ -32,22 +31,32 @@ export class BorrowBookDetailComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.route.paramMap.switchMap((params: ParamMap) => {
-      return this.usersService.listCachedBorrowedBooks()
-        .filter((borrow) => borrow.Book.Id === Number(params.get('id')))
-
-    }).subscribe(data => {
-      this.book = data;
-      
-      if (this.book && !this.book.Book.ThumbnailLink) {
-        this.book.Book.ThumbnailLink = '/assets/img/book_cover.jpg';
-      }
-    }, err => console.log(err));
+    this.route.paramMap
+      .pipe(
+        switchMap((params: ParamMap) => {
+          return this.usersService.listCachedBorrowedBooks()
+            .pipe(
+              filter(borrow => borrow.Book.Id === Number(params.get('id')))
+            );
+        })
+      )
+      .subscribe(
+        data => {
+          this.book = data;
+          
+          if (this.book && !this.book.Book.ThumbnailLink) {
+            this.book.Book.ThumbnailLink = '/assets/img/book_cover.jpg';
+          }
+        },
+        err => console.log(err)
+      );
   }
 
   returnBook(id: number): void {
     this.confirm()
-      .filter(data => data === true)
+      .pipe(
+        filter(data => data === true)
+      )
       .subscribe(() => this.return(id));
   }
 
@@ -62,12 +71,14 @@ export class BorrowBookDetailComponent implements OnInit {
   }
 
   private return(id: number) {
-    this.usersService.return(id).subscribe(() => {
-      this.showMessage('Success', 'Return');
-      this.isReturned = true;
-    }, (err) => {
-      this.errHandler.handle(err);
-    });
+    this.usersService.return(id)
+      .subscribe(
+        () => {
+          this.showMessage('Success', 'Return');
+          this.isReturned = true;
+        },
+        err => this.errHandler.handle(err)
+      );
   }
 
   private showMessage(message: string, action: string): void {

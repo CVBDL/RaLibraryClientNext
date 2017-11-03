@@ -2,8 +2,8 @@ import { ActivatedRoute, ParamMap } from "@angular/router";
 import { Component, OnInit } from '@angular/core';
 import { MatDialog, MatSnackBar } from '@angular/material';
 
-import { Observable } from 'rxjs/Rx';
-import "rxjs/add/operator/filter";
+import { Observable } from 'rxjs/Observable';
+import { filter, switchMap } from 'rxjs/operators';
 
 import { AuthenticationService } from "../../core/authentication.service";
 import { Book } from "../../shared/book";
@@ -12,7 +12,6 @@ import { ConfirmationDialogComponent } from "../../core/confirmation-dialog/conf
 import { HttpErrorHandlerService } from "../../core/http-error-handler.service";
 import { LoginDialogComponent } from "../../core/login-dialog/login-dialog.component";
 import { UsersService } from "../../core/users.service";
-import 'rxjs/add/operator/switchMap';
 
 @Component({
   templateUrl: './book-detail.component.html',
@@ -33,20 +32,21 @@ export class BookDetailComponent implements OnInit {
 
   ngOnInit() {
     this.route.paramMap
-      .switchMap((params: ParamMap) =>
-        this.booksService.get(Number(params.get('id'))))
+      .pipe(
+        switchMap((params: ParamMap) =>
+          this.booksService.get(Number(params.get('id'))))
+      )
       .subscribe(book => {
-      this.book = book;
-      
-      if (this.book) {
-        this.isBorrowed = book.IsBorrowed;
+        this.book = book;
+        
+        if (this.book) {
+          this.isBorrowed = book.IsBorrowed;
 
-        if (!this.book.ThumbnailLink) {
-          this.book.ThumbnailLink = '/assets/img/book_cover.jpg';
+          if (!this.book.ThumbnailLink) {
+            this.book.ThumbnailLink = '/assets/img/book_cover.jpg';
+          }
         }
-      }
-    });
-
+      });
   }
 
   borrowBook(id: number): void {
@@ -55,15 +55,17 @@ export class BookDetailComponent implements OnInit {
 
       dialogRef.afterClosed().subscribe(() => {
         if (this.auth.isAuthenticated) {
-          this.confirm()
-            .filter(data => data === true)
-            .subscribe(() => this.borrow(id));
+          this.confirm().pipe(
+            filter(data => data === true)
+          )
+          .subscribe(() => this.borrow(id));
         }
       });
     } else {
-      this.confirm()
-        .filter(data => data === true)
-        .subscribe(() => this.borrow(id));
+      this.confirm().pipe(
+        filter(data => data === true)
+      )
+      .subscribe(() => this.borrow(id));
     }
   }
 
