@@ -39,6 +39,8 @@ export class LoginDialogComponent implements OnInit {
   }
 
   onClickSignIn(): void {
+    if (!this.username || !this.password) return;
+
     this.isLoading = true;
 
     this.auth.login(this.username, this.password)

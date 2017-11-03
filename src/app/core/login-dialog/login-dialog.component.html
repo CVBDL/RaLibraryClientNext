@@ -5,11 +5,11 @@
   <mat-form-field>
     <span matPrefix>RA-INT \ &nbsp;</span>
     <input matInput [(ngModel)]="username" placeholder="Username"
-      tabindex="1" type="text">
+      tabindex="1" type="text" (keyup.enter)="onClickSignIn()">
   </mat-form-field>
   <mat-form-field>
     <input matInput [(ngModel)]="password" placeholder="Password"
-      tabindex="2" type="password">
+      tabindex="2" type="password" (keyup.enter)="onClickSignIn()">
   </mat-form-field>
   <div *ngIf="hasError" class="caption message">Failed. Try again.</div>
 </div>
