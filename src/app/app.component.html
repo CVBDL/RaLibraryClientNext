@@ -1,4 +1,8 @@
-<ral-nav fxFlex="none"></ral-nav>
-<div class="content" fxFlex>
-  <router-outlet></router-outlet>
+<div class="app-wrapper" fxLayout="column">
+  <header fxFlex="none">
+    <ral-nav></ral-nav>
+  </header>
+  <main fxFlex="grow">
+    <router-outlet></router-outlet>
+  </main>
 </div>

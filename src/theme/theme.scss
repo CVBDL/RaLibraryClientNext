@@ -22,7 +22,7 @@ $candy-app-theme: mat-light-theme($candy-app-primary, $candy-app-accent, $candy-
 @include angular-material-theme($candy-app-theme);
 
 
-// Customizing Angular Material tabs
+// Customizing Angular Material Tabs
 .mat-tab-links {
   display: flex;
 }

@@ -1,13 +1,13 @@
 :host {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
+  display: block;
   height: 100%;
-  overflow: hidden;
 }
 
-.content {
-  overflow-x: hidden;
+.app-wrapper {
+  height: 100%;
+}
+
+main {
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
 }
