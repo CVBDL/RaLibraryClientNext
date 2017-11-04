@@ -1,11 +1,9 @@
-import { Component, ViewEncapsulation } from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'ral-nav',
   templateUrl: './nav.component.html',
-  styleUrls: ['./nav.component.scss'],
-  host: { 'class': 'ral-nav' },
-  encapsulation: ViewEncapsulation.None
+  styleUrls: ['./nav.component.scss']
 })
 export class NavComponent {
   readonly navLinks: Array<NavLink> = [

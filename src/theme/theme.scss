@@ -21,7 +21,24 @@ $candy-app-theme: mat-light-theme($candy-app-primary, $candy-app-accent, $candy-
 // that you are using.
 @include angular-material-theme($candy-app-theme);
 
-// Snack Bar
+
+// Customizing Angular Material tabs
+.mat-tab-links {
+  display: flex;
+}
+
+.mat-tab-link {
+  color: #fff !important;
+  opacity: 1 !important;
+  flex: 1;
+}
+
+.mat-ink-bar {
+  background-color: #2E7D32 !important;
+}
+
+
+// Customizing Angular Material Snackbar
 .ral-error button {
   color: #F44336;
 }
