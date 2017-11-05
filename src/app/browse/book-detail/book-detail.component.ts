@@ -21,6 +21,8 @@ export class BookDetailComponent implements OnInit {
   book: Book;
   isBorrowed: boolean = true;
 
+  private readonly defaultThumbnailLink = '/assets/img/book_cover.jpg';
+
   constructor(
     public dialog: MatDialog,
     public snackBar: MatSnackBar,
@@ -36,15 +38,11 @@ export class BookDetailComponent implements OnInit {
         switchMap((params: ParamMap) =>
           this.booksService.get(Number(params.get('id'))))
       )
-      .subscribe(book => {
-        this.book = book;
+      .subscribe(data => {
+        this.book = data;
         
-        if (this.book) {
-          this.isBorrowed = book.IsBorrowed;
-
-          if (!this.book.ThumbnailLink) {
-            this.book.ThumbnailLink = '/assets/img/book_cover.jpg';
-          }
+        if (this.book && !this.book.ThumbnailLink) {
+          this.book.ThumbnailLink = this.defaultThumbnailLink;
         }
       });
   }
@@ -53,19 +51,19 @@ export class BookDetailComponent implements OnInit {
     if (!this.auth.isAuthenticated) {
       let dialogRef = this.dialog.open(LoginDialogComponent);
 
-      dialogRef.afterClosed().subscribe(() => {
-        if (this.auth.isAuthenticated) {
-          this.confirm().pipe(
-            filter(data => data === true)
-          )
-          .subscribe(() => this.borrow(id));
-        }
-      });
+      dialogRef.afterClosed()
+        .subscribe(() => {
+          if (this.auth.isAuthenticated) {
+            this.confirm()
+              .pipe(filter(data => data === true))
+              .subscribe(() => this.borrow(id));
+          }
+        });
+
     } else {
-      this.confirm().pipe(
-        filter(data => data === true)
-      )
-      .subscribe(() => this.borrow(id));
+      this.confirm()
+        .pipe(filter(data => data === true))
+        .subscribe(() => this.borrow(id));
     }
   }
 
@@ -79,15 +77,16 @@ export class BookDetailComponent implements OnInit {
     return confirmDialogRef.afterClosed();
   }
 
-  private borrow(id: number) {
-    this.usersService.borrow(id).subscribe(
-      () => {
-        this.showMessage('Success', 'Borrow');
-        this.isBorrowed = true;
-      },
-      err => {
-        this.errHandler.handle(err);
-      });
+  private borrow(id: number): void {
+    this.usersService.borrow(id)
+      .subscribe(
+        () => {
+          this.showMessage('Success', 'Borrow');
+          this.book.IsBorrowed = true;
+        },
+        err => {
+          this.errHandler.handle(err);
+        });
   }
 
   private showMessage(message: string, action: string): void {

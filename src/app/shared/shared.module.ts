@@ -13,6 +13,7 @@ import {
 import { CardComponent } from "./card/card.component";
 import { ProgressComponent } from './progress/progress.component';
 import { TroubleshootingComponent } from './troubleshooting/troubleshooting.component';
+import { BookComponent } from './book/book.component';
 
 @NgModule({
   imports: [
@@ -32,12 +33,14 @@ import { TroubleshootingComponent } from './troubleshooting/troubleshooting.comp
     MatInputModule,
     MatSnackBarModule,
     ProgressComponent,
-    TroubleshootingComponent
+    TroubleshootingComponent,
+    BookComponent
   ],
   declarations: [
     CardComponent,
     ProgressComponent,
-    TroubleshootingComponent
+    TroubleshootingComponent,
+    BookComponent
   ]
 })
 export class SharedModule { }

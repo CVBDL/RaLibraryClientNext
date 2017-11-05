@@ -17,37 +17,31 @@
       <mat-icon aria-label="Overdue books">sentiment_very_dissatisfied</mat-icon>
       <span class="mat-caption">Overdue ({{overdueBooks?.length || 0}})</span>
     </div>
-    <div class="card-container"
-        *ngFor="let book of overdueBooks"
-        fxFlex="100" fxFlex.sm="50" fxFlex.md="33" fxFlex.gt-md="25">
-      <ral-card
+    <div class="card-container" fxFlex="0 0 150px"
+        *ngFor="let book of overdueBooks">
+      <ral-book
         [book]="book.Book"
-        [enableBadge]="false"
-        [routerLink]="['/profile/books', book.Book.Id]"></ral-card>
+        [routerLink]="['/profile/books', book.Book.Id]"></ral-book>
     </div>
     <div fxFlex="100" *ngIf="willOverdueBooks?.length" class="will-overdue" fxLayout="row" fxLayoutAlign="start center">
       <mat-icon aria-label="Overdue soon">sentiment_neutral</mat-icon>
       <span class="mat-caption">Overdue Soon ({{willOverdueBooks?.length || 0}})</span>
     </div>
-    <div class="card-container"
-        *ngFor="let book of willOverdueBooks"
-        fxFlex="100" fxFlex.sm="50" fxFlex.md="33" fxFlex.gt-md="25">
-      <ral-card
+    <div class="card-container" fxFlex="0 0 150px"
+        *ngFor="let book of willOverdueBooks">
+      <ral-book
         [book]="book.Book"
-        [enableBadge]="false"
-        [routerLink]="['/profile/books', book.Book.Id]"></ral-card>
+        [routerLink]="['/profile/books', book.Book.Id]"></ral-book>
     </div>
     <div fxFlex="100" *ngIf="normalBooks?.length" class="normal" fxLayout="row" fxLayoutAlign="start center">
       <mat-icon aria-label="Enjoy reading">sentiment_very_satisfied</mat-icon>
       <span class="mat-caption">Enjoy Reading ({{normalBooks?.length || 0}})</span>
     </div>
-    <div class="card-container"
-        *ngFor="let book of normalBooks"
-        fxFlex="100" fxFlex.sm="50" fxFlex.md="33" fxFlex.gt-md="25">
-      <ral-card
+    <div class="card-container" fxFlex="0 0 150px"
+        *ngFor="let book of normalBooks">
+      <ral-book
         [book]="book.Book"
-        [enableBadge]="false"
-        [routerLink]="['/profile/books', book.Book.Id]"></ral-card>
+        [routerLink]="['/profile/books', book.Book.Id]"></ral-book>
     </div>
   </div>
 </div>

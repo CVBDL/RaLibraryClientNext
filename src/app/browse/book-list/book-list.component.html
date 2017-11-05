@@ -2,10 +2,10 @@
   <div *ngIf="isLoading" fxFlex="100">
     <ral-progress message="Getting books"></ral-progress>
   </div>
-  <div class="ral-card-wrapper" *ngFor="let book of books"
-      fxFlex="100" fxFlex.sm="50" fxFlex.md="33" fxFlex.gt-md="25">
-    <ral-card
+  <div class="ral-card-wrapper" fxFlex="1 0 150px"
+      *ngFor="let book of books">
+    <ral-book
       [book]="book"
-      [routerLink]="['/browse/books', book.Id]"></ral-card>
+      [routerLink]="['/browse/books', book.Id]"></ral-book>
   </div>
 </section>

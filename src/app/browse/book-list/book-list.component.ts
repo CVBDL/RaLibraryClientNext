@@ -11,7 +11,7 @@ import { HttpErrorHandlerService } from "../../core/http-error-handler.service";
 export class BookListComponent implements OnInit {
   books: Book[];
   isLoading: boolean = false;
-  
+
   constructor(
     private booksService: BooksService,
     private errHandler: HttpErrorHandlerService) { }
@@ -19,15 +19,16 @@ export class BookListComponent implements OnInit {
   ngOnInit() {
     this.isLoading = true;
 
-    this.booksService.list().subscribe(
-      data => {
-        this.isLoading = false;
-        this.books = data;
-      },
-      err => {
-        this.isLoading = false;
-        this.errHandler.handle(err);
-      });
+    this.booksService.list()
+      .subscribe(
+        data => {
+          this.isLoading = false;
+          this.books = data;
+        },
+        err => {
+          this.isLoading = false;
+          this.errHandler.handle(err);
+        });
   }
 
 }

@@ -12,10 +12,10 @@
   <div class="result" fxLayout="row" fxLayoutWrap fxFlex="initial">
     <div class="card-container"
         *ngFor="let book of books"
-        fxFlex="100" fxFlex.sm="50" fxFlex.md="33" fxFlex.gt-md="25">
-      <ral-card
+        fxFlex="1 0 150px">
+      <ral-book
         [book]="book"
-        [routerLink]="['/browse/books', book.Id]"></ral-card>
+        [routerLink]="['/browse/books', book.Id]"></ral-book>
     </div>
   </div>
 </div>
