@@ -2,12 +2,21 @@
   <div fxFlex="none">
     <mat-card class="search-bar" fxLayout="row">
       <input class="input" fxFlex name="keyword" matInput placeholder="Title"
-        [(ngModel)]="keyword" (keyup.enter)="search(keyword)"
+        [(ngModel)]="keyword" (keyup.enter)="search()"
         [disabled]="isSearching">
-      <button mat-icon-button (click)="search(keyword)" color="primary">
+      <button mat-icon-button (click)="search()" color="primary">
         <mat-icon aria-label="Search">search</mat-icon>
       </button>
     </mat-card>
+  </div>
+  <div class="search-filters" fxFlex="none">
+    <mat-chip-list multiple="true">
+      <mat-chip
+          *ngFor="let filter of filters"
+          [selected]="filter.isSelected"
+          (click)="filter.isSelected = !filter.isSelected">
+        {{filter.label}}</mat-chip>
+    </mat-chip-list>
   </div>
   <div class="result" fxLayout="row" fxLayoutWrap fxFlex="initial">
     <div class="card-container"

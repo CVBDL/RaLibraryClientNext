@@ -1,7 +1,7 @@
 <div fxLayout="column" fxLayoutAlign="start center" fxLayoutGap="8px">
   <div class="thumbnail-wrapper" fxFlex="none">
     <img [src]="thumbnailLink">
-    <span class="notes mat-caption" *ngIf="book.IsBorrowed">Not Available</span>
+    <span class="mat-caption hint" *ngIf="book.IsBorrowed">Not Available</span>
   </div>
   <div class="mat-body-1 ellipsis">{{book.Title}}</div>
   <div class="mat-body-1 ellipsis secondary-text">{{book.Authors}}</div>

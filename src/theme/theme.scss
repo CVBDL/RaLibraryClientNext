@@ -38,6 +38,29 @@ $candy-app-theme: mat-light-theme($candy-app-primary, $candy-app-accent, $candy-
 }
 
 
+// Customizing Angular Material Chips
+.search-filters {
+  .mat-chip.mat-chip-selected.mat-primary {
+    color: rgba(255, 255, 255, .87);
+    box-shadow: 0 3px 3px -2px rgba(0,0,0,.2), 0 3px 4px 0 rgba(0,0,0,.14), 0 1px 8px 0 rgba(0,0,0,.12) !important;
+    outline: 0 !important;
+  }
+
+  .mat-chip:not(.mat-basic-chip) {
+    color: rgba(0, 0, 0, .54);
+    box-shadow: none;
+  }
+
+  .mat-chip:not(.mat-basic-chip):focus {
+    box-shadow: none;
+  }
+
+  .mat-chip-list-wrapper {
+    justify-content: flex-end;
+  }
+}
+
+
 // Customizing Angular Material Snackbar
 .ral-error button {
   color: #F44336;

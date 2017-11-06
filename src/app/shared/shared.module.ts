@@ -4,6 +4,7 @@ import { NgModule } from '@angular/core';
 import {
   MatButtonModule,
   MatCardModule,
+  MatChipsModule,
   MatIconModule,
   MatInputModule,
   MatProgressBarModule,
@@ -21,6 +22,7 @@ import { BookComponent } from './book/book.component';
     FlexLayoutModule,
     MatButtonModule,
     MatCardModule,
+    MatChipsModule,
     MatIconModule,
     MatProgressBarModule
   ],
@@ -29,6 +31,7 @@ import { BookComponent } from './book/book.component';
     FlexLayoutModule,
     MatButtonModule,
     MatCardModule,
+    MatChipsModule,
     MatIconModule,
     MatInputModule,
     MatSnackBarModule,
