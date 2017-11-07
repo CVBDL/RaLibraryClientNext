@@ -45,7 +45,7 @@ export class BorrowBookDetailComponent implements OnInit {
           this.book = data;
           
           if (this.book && !this.book.Book.ThumbnailLink) {
-            this.book.Book.ThumbnailLink = '/assets/img/book_cover.jpg';
+            this.book.Book.ThumbnailLink = './assets/img/book_cover.jpg';
           }
         },
         err => console.log(err)

@@ -21,7 +21,7 @@ export class BookDetailComponent implements OnInit {
   book: Book;
   isBorrowed: boolean = true;
 
-  private readonly defaultThumbnailLink = '/assets/img/book_cover.jpg';
+  private readonly defaultThumbnailLink = './assets/img/book_cover.jpg';
 
   constructor(
     public dialog: MatDialog,

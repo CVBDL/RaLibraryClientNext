@@ -12,7 +12,7 @@ export class CardComponent implements OnInit {
   @Input() book: Book;
   @Input() enableBadge: boolean = true;
 
-  thumbnailLink: string = '/assets/img/book_cover.jpg';
+  thumbnailLink: string = './assets/img/book_cover.jpg';
 
   ngOnInit() {
     if (this.book.ThumbnailLink) {

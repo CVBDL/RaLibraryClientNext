@@ -10,7 +10,7 @@ import { Book } from "../book";
 export class BookComponent implements OnInit {
   @Input() book: Book;
 
-  thumbnailLink: string = '/assets/img/book_cover.jpg';
+  thumbnailLink: string = './assets/img/book_cover.jpg';
 
   constructor() { }
 
