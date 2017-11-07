@@ -15,6 +15,7 @@ import { CardComponent } from "./card/card.component";
 import { ProgressComponent } from './progress/progress.component';
 import { TroubleshootingComponent } from './troubleshooting/troubleshooting.component';
 import { BookComponent } from './book/book.component';
+import { ToolbarComponent } from './toolbar/toolbar.component';
 
 @NgModule({
   imports: [
@@ -36,6 +37,7 @@ import { BookComponent } from './book/book.component';
     MatInputModule,
     MatSnackBarModule,
     ProgressComponent,
+    ToolbarComponent,
     TroubleshootingComponent,
     BookComponent
   ],
@@ -43,7 +45,8 @@ import { BookComponent } from './book/book.component';
     CardComponent,
     ProgressComponent,
     TroubleshootingComponent,
-    BookComponent
+    BookComponent,
+    ToolbarComponent
   ]
 })
 export class SharedModule { }

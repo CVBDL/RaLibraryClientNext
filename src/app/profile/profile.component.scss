@@ -38,13 +38,13 @@
   color: #8BC34A;
 }
 
-.list {
+.books-container {
   padding: 8px;
-  overflow-y: auto;
   overflow-x: hidden;
+  overflow-y: auto;
   -webkit-overflow-scrolling: touch;
 }
 
-.card-container {
+.ral-book-wrapper {
   padding: 8px;
 }

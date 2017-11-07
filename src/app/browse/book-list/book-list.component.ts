@@ -17,9 +17,16 @@ export class BookListComponent implements OnInit {
     private errHandler: HttpErrorHandlerService) { }
   
   ngOnInit() {
-    this.isLoading = true;
+    this.loadBooks();
+  }
 
-    this.booksService.list()
+  onClickRefresh(): void {
+    this.loadBooks(true);
+  }
+
+  private loadBooks(force: boolean = false): void {
+    this.isLoading = true;
+    this.booksService.list(force)
       .subscribe(
         data => {
           this.isLoading = false;

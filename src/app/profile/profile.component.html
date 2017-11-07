@@ -1,23 +1,23 @@
 <div class="container" fxLayout="column">
   <div class="ral-toolbar-wrapper" fxFlex="none">
-    <ral-user-toolbar>
+    <ral-toolbar>
       <button mat-icon-button (click)="onClickRefresh()" color="primary">
         <mat-icon aria-label="Refresh">refresh</mat-icon>
       </button>
       <button mat-icon-button (click)="onClickProfile()" color="primary">
         <mat-icon aria-label="User profile">person_outline</mat-icon>
       </button>
-    </ral-user-toolbar>
+    </ral-toolbar>
   </div>
-  <div class="list" fxFlex="initial" fxLayout="row" fxLayoutWrap>
-    <div fxFlex="100" *ngIf="isLoading">
-      <ral-progress message="Getting your books"></ral-progress>
-    </div>
+  <div *ngIf="isLoading" class="ral-progress-wrapper" fxFlex="none">
+    <ral-progress message="Getting your books"></ral-progress>
+  </div>
+  <div class="books-container" fxFlex="nogrow" fxLayout="row" fxLayoutWrap>
     <div fxFlex="100" *ngIf="overdueBooks?.length" class="overdue" fxLayout="row" fxLayoutAlign="start center">
       <mat-icon aria-label="Overdue books">sentiment_very_dissatisfied</mat-icon>
       <span class="mat-caption">Overdue ({{overdueBooks?.length || 0}})</span>
     </div>
-    <div class="card-container" fxFlex="0 0 150px"
+    <div class="ral-book-wrapper" fxFlex="0 0 150px"
         *ngFor="let book of overdueBooks">
       <ral-book
         [book]="book.Book"
@@ -27,7 +27,7 @@
       <mat-icon aria-label="Overdue soon">sentiment_neutral</mat-icon>
       <span class="mat-caption">Overdue Soon ({{willOverdueBooks?.length || 0}})</span>
     </div>
-    <div class="card-container" fxFlex="0 0 150px"
+    <div class="ral-book-wrapper" fxFlex="0 0 150px"
         *ngFor="let book of willOverdueBooks">
       <ral-book
         [book]="book.Book"
@@ -37,7 +37,7 @@
       <mat-icon aria-label="Enjoy reading">sentiment_very_satisfied</mat-icon>
       <span class="mat-caption">Enjoy Reading ({{normalBooks?.length || 0}})</span>
     </div>
-    <div class="card-container" fxFlex="0 0 150px"
+    <div class="ral-book-wrapper" fxFlex="0 0 150px"
         *ngFor="let book of normalBooks">
       <ral-book
         [book]="book.Book"

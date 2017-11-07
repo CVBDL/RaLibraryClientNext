@@ -1,11 +1,20 @@
-<section fxLayout="row" fxLayoutWrap>
-  <div *ngIf="isLoading" fxFlex="100">
+<div class="container" fxLayout="column">
+  <div class="ral-toolbar-wrapper" fxFlex="none">
+    <ral-toolbar>
+      <button mat-icon-button (click)="onClickRefresh()" color="primary">
+        <mat-icon aria-label="Refresh">refresh</mat-icon>
+      </button>
+    </ral-toolbar>
+  </div>
+  <div *ngIf="isLoading" class="ral-progress-wrapper" fxFlex="none">
     <ral-progress message="Getting books"></ral-progress>
   </div>
-  <div class="ral-card-wrapper" fxFlex="1 0 150px"
-      *ngFor="let book of books">
-    <ral-book
-      [book]="book"
-      [routerLink]="['/browse/books', book.Id]"></ral-book>
+  <div class="books-container" fxFlex="nogrow" fxLayout="row" fxLayoutWrap>
+    <div class="ral-book-wrapper" fxFlex="1 0 150px"
+        *ngFor="let book of books">
+      <ral-book
+        [book]="book"
+        [routerLink]="['/browse/books', book.Id]"></ral-book>
+    </div>
   </div>
-</section>
+</div>

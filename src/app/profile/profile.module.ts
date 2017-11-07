@@ -6,7 +6,6 @@ import { SharedModule } from "../shared/shared.module";
 
 import { BorrowBookDetailComponent } from './borrow-book-detail/borrow-book-detail.component';
 import { ProfileComponent } from "./profile.component";
-import { UserToolbarComponent } from './user-toolbar/user-toolbar.component';
 
 @NgModule({
   imports: [
@@ -16,8 +15,7 @@ import { UserToolbarComponent } from './user-toolbar/user-toolbar.component';
   ],
   declarations: [
     BorrowBookDetailComponent,
-    ProfileComponent,
-    UserToolbarComponent
+    ProfileComponent
   ]
 })
 export class ProfileModule { }

@@ -3,14 +3,25 @@
   height: 100%;
 }
 
-section {
-  padding: 8px;
+.container {
   height: 100%;
+}
+
+.ral-toolbar-wrapper {
+  background-color: #E8F5E9;  
+}
+
+.ral-progress-wrapper {
+  padding: 8px 0;
+}
+
+.books-container {
+  padding: 8px;
   overflow-x: hidden;
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
 }
 
-.ral-card-wrapper {
+.ral-book-wrapper {
   padding: 8px;
 }
