@@ -1,3 +1,5 @@
+import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CommonModule } from '@angular/common';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { NgModule } from '@angular/core';
@@ -16,9 +18,12 @@ import { ProgressComponent } from './progress/progress.component';
 import { TroubleshootingComponent } from './troubleshooting/troubleshooting.component';
 import { BookComponent } from './book/book.component';
 import { ToolbarComponent } from './toolbar/toolbar.component';
+import { BackToTopComponent } from './back-to-top/back-to-top.component';
 
 @NgModule({
   imports: [
+    BrowserModule,
+    BrowserAnimationsModule,
     CommonModule,
     FlexLayoutModule,
     MatButtonModule,
@@ -28,6 +33,7 @@ import { ToolbarComponent } from './toolbar/toolbar.component';
     MatProgressBarModule
   ],
   exports: [
+    BackToTopComponent,
     CardComponent,
     FlexLayoutModule,
     MatButtonModule,
@@ -42,6 +48,7 @@ import { ToolbarComponent } from './toolbar/toolbar.component';
     BookComponent
   ],
   declarations: [
+    BackToTopComponent,
     CardComponent,
     ProgressComponent,
     TroubleshootingComponent,

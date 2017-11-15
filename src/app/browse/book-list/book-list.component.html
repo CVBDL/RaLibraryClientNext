@@ -9,12 +9,15 @@
   <div *ngIf="isLoading" class="ral-progress-wrapper" fxFlex="none">
     <ral-progress message="Getting books"></ral-progress>
   </div>
-  <div class="books-container" fxFlex="nogrow" fxLayout="row" fxLayoutWrap>
+  <div id="books-container" class="books-container" fxFlex="nogrow" fxLayout="row" fxLayoutWrap>
     <div class="ral-book-wrapper" fxFlex="1 0 150px"
         *ngFor="let book of books">
       <ral-book
         [book]="book"
         [routerLink]="['/browse/books', book.Id]"></ral-book>
+    </div>
+    <div class="ral-back-to-top-wrapper">
+      <ral-back-to-top [scrollContainerId]="'books-container'"></ral-back-to-top>
     </div>
   </div>
 </div>
