@@ -25,14 +25,11 @@ import {
   ]
 })
 export class BackToTopComponent implements OnInit {
-  @Input() scrollContainerId: string;
+  @Input() container: HTMLElement;
+
   state: string = 'invisible';
 
-  private container: Element;
-
   ngOnInit() {
-    this.container = document.getElementById(this.scrollContainerId);
-
     if (this.container) {
       this.container.addEventListener('scroll', () => this.onScroll());
     }
