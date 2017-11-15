@@ -1,14 +1,40 @@
 <mat-card>
-  <div class="ral-card__thumbnail">
+  <div class="ral-card__header" fxLayout="row" fxLayoutGap="16px">
+    <div class="ral-card__title" fxFlex>
+      <h1 class="mat-title">{{book?.Title}}</h1>
+      <h2 class="mat-subheading-2">{{book?.Subtitle}}</h2>
+      <p class="mat-body-1" fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="4px">
+        {{book?.Authors}}
+      </p>
+      <p class="mat-body-1">
+        {{book?.Publisher}}
+        <br>
+        {{book?.PublishedDate}}
+      </p>
+    </div>
+    <div class="ral-card__thumbnail" fxFlex="none">
       <img [src]="thumbnailLink">
+    </div>
   </div>
-  <div class="ral-card__content">
-    <h2 class="ral-card__title mat-body-1">{{book.Title}}</h2>
-    <p class="ral-card__detail mat-body-1">{{book.Authors}}</p>
-    <p class="ral-card__detail mat-body-1">{{book.PublishedDate}}</p>
-  </div>
-  <div *ngIf="enableBadge" class="ral-card__badge">
-    <mat-icon color="primary" aria-label="Add shopping cart"
-      [ngClass]="{ 'disabled': book.IsBorrowed }">add_shopping_cart</mat-icon>
-  </div>
+  <mat-card-content>
+    <p *ngIf="borrowData" class="mat-body-2">
+      Expected Return Time: {{borrowData?.ExpectedReturnTime | date}}
+    </p>
+    <p *ngIf="borrowData" class="mat-body-2">
+      Borrow Time: {{borrowData?.BorrowTime | date}}
+    </p>
+    <p class="mat-body-1">{{book.Description}}</p>
+    <p class="mat-body-1">Page Count: {{book.PageCount}}</p>
+    <p class="mat-body-1">Code: {{book?.Code}}</p>
+    <p class="mat-body-1">ISBN: {{book?.ISBN10}}, {{book?.ISBN13}}</p>
+  </mat-card-content>
+  <mat-card-actions>
+    <button mat-button color="primary"
+      *ngIf="hasBorrow"
+      [disabled]="book.IsBorrowed"
+      (click)="borrowBook(book.Id)">BORROW</button>
+    <button mat-button color="primary"
+      *ngIf="hasReturn"
+      (click)="returnBook(book.Id)">RETURN</button>
+  </mat-card-actions>
 </mat-card>

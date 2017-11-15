@@ -3,47 +3,15 @@
 }
 
 .mat-card {
-  display: flex;
-  flex-direction: row;
-  position: relative;
-  height: 100px;
+  max-width: 960px;
+  margin: 0 auto;
 }
 
-.ral-card__thumbnail {
-  flex: 0 1 auto;
-
-  img {
-    max-width: 64px;
-    width: 64px;
-    height: auto;
-  }
+.ral-card__header {
+  margin-bottom: 16px;
 }
 
-.ral-card__content {
-  margin: 0 16px;
-  flex: 1;
-}
-
-.ral-card__title,
-.ral-card__subtitle {
-  margin: 0 0 12px 0;
-}
-
-.ral-card__detail {
-  color: rgba(0, 0, 0, .54);
-  margin: 0 0 4px 0;
-
-  &:last-child {
-    margin: 0;
-  }
-}
-
-.ral-card__badge {
-  position: absolute;
-  top: 24px;
-  right: 16px;
-}
-
-.disabled {
-  color: rgba(0,0,0,.12);
+img {
+  width: 80px;
+  height: auto;
 }

@@ -1,33 +1,8 @@
 <div class="ral-book-detail__container" *ngIf="book">
-  <div class="ral-book-detail__header" fxLayout="row">
-    <div fxFlex="auto">
-      <h2 class="mat-body-2">Borrow Time</h2>
-      <p class="mat-body-1">{{book?.BorrowTime | date}}</p>
-      <h2 class="mat-body-2">Expected Return Time</h2>
-      <p class="mat-body-1">{{book?.ExpectedReturnTime | date}}</p>
-      <h2 class="mat-body-2">Title</h2>
-      <p class="mat-body-1">{{book?.Book.Title}}</p>
-      <h2 class="mat-body-2">Subtitle</h2>
-      <p class="mat-body-1">{{book?.Book.Subtitle}}</p>
-      <h2 class="mat-body-2">Authors</h2>
-      <p class="mat-body-1">{{book?.Book.Authors}}</p>
-      <h2 class="mat-body-2">Publisher</h2>
-      <p class="mat-body-1">{{book?.Book.Publisher}}</p>
-      <h2 class="mat-body-2">Published Date</h2>
-      <p class="mat-body-1">{{book?.Book.PublishedDate}}</p>
-      <h2 class="mat-body-2">Page Count</h2>
-      <p class="mat-body-1">{{book?.Book.PageCount}}</p>
-      <h2 class="mat-body-2">Code</h2>
-      <p class="mat-body-1">{{book?.Book.Code}}</p>
-    </div>
-    <div fxFlex="nogrow" fxLayout="column" fxLayoutGap="16px" class="ral-book-detail__header__right">
-      <img [src]="book?.Book.ThumbnailLink">
-      <button *ngIf="!isReturned" mat-raised-button color="primary"
-        (click)="returnBook(book.Book.Id)">Return</button>
-    </div>
-  </div>
-  <div class="ral-book-detail__content">
-    <h2 class="mat-body-2">Description</h2>
-    <p class="mat-body-1">{{book?.Book.Description}}</p>
-  </div>
+  <ral-card
+    [book]="book.Book"
+    [borrowData]="book"
+    [hasBorrow]="flase"
+    [hasReturn]="true"
+    (onReturn)="returnBook($event)"></ral-card>
 </div>

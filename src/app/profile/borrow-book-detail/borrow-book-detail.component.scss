@@ -1,5 +1,9 @@
 .ral-book-detail__container {
   padding: 16px;
+  height: 100%;
+  overflow-x: hidden;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
 h2,

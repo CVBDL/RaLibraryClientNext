@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, Output, OnInit } from '@angular/core';
 
 import { Book } from "../book";
 
@@ -10,7 +10,11 @@ import { Book } from "../book";
 })
 export class CardComponent implements OnInit {
   @Input() book: Book;
-  @Input() enableBadge: boolean = true;
+  @Input() borrowData: {} = null;
+  @Input() hasBorrow: boolean = true;
+  @Input() hasReturn: boolean = true;
+  @Output() onBorrow = new EventEmitter<number>();
+  @Output() onReturn = new EventEmitter<number>();
 
   thumbnailLink: string = './assets/img/book_cover.jpg';
 
@@ -23,6 +27,14 @@ export class CardComponent implements OnInit {
         img = null;
       };
     }
+  }
+
+  borrowBook(id: number): void {
+    this.onBorrow.emit(id);
+  }
+
+  returnBook(id: number): void {
+    this.onReturn.emit(id);
   }
 
 }
