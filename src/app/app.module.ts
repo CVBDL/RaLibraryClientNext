@@ -12,6 +12,7 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { AppComponent } from './app.component';
 import { ConfirmationDialogComponent } from "./core/confirmation-dialog/confirmation-dialog.component";
 import { LoginDialogComponent } from "./core/login-dialog/login-dialog.component";
+import { SharedModule } from "./shared/shared.module";
 
 @NgModule({
   imports: [
@@ -22,6 +23,7 @@ import { LoginDialogComponent } from "./core/login-dialog/login-dialog.component
     CoreModule,
     ProfileModule,
     SearchModule,
+    SharedModule,
     FlexLayoutModule
   ],
   providers: [],

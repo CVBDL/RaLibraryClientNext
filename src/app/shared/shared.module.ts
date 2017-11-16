@@ -13,12 +13,13 @@ import {
   MatSnackBarModule
 } from '@angular/material';
 
-import { CardComponent } from "./card/card.component";
-import { ProgressComponent } from './progress/progress.component';
-import { TroubleshootingComponent } from './troubleshooting/troubleshooting.component';
-import { BookComponent } from './book/book.component';
-import { ToolbarComponent } from './toolbar/toolbar.component';
 import { BackToTopComponent } from './back-to-top/back-to-top.component';
+import { BookComponent } from './book/book.component';
+import { CardComponent } from "./card/card.component";
+import { LaunchScreenComponent } from './launch-screen/launch-screen.component';
+import { ProgressComponent } from './progress/progress.component';
+import { ToolbarComponent } from './toolbar/toolbar.component';
+import { TroubleshootingComponent } from './troubleshooting/troubleshooting.component';
 
 @NgModule({
   imports: [
@@ -34,8 +35,10 @@ import { BackToTopComponent } from './back-to-top/back-to-top.component';
   ],
   exports: [
     BackToTopComponent,
+    BookComponent,
     CardComponent,
     FlexLayoutModule,
+    LaunchScreenComponent,
     MatButtonModule,
     MatCardModule,
     MatChipsModule,
@@ -44,15 +47,15 @@ import { BackToTopComponent } from './back-to-top/back-to-top.component';
     MatSnackBarModule,
     ProgressComponent,
     ToolbarComponent,
-    TroubleshootingComponent,
-    BookComponent
+    TroubleshootingComponent
   ],
   declarations: [
     BackToTopComponent,
+    BookComponent,
     CardComponent,
+    LaunchScreenComponent,
     ProgressComponent,
     TroubleshootingComponent,
-    BookComponent,
     ToolbarComponent
   ]
 })

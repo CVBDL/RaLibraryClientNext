@@ -12,7 +12,7 @@ import {
   templateUrl: './back-to-top.component.html',
   styleUrls: ['./back-to-top.component.scss'],
   animations: [
-    trigger('heroState', [
+    trigger('visibleState', [
       state('visible', style({
         transform: 'scale(1)'
       })),
