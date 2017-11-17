@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, Renderer2 } from '@angular/core';
 import {
   trigger,
   state,
@@ -27,11 +27,16 @@ import {
 export class BackToTopComponent implements OnInit {
   @Input() container: HTMLElement;
 
-  state: string = 'invisible';
+  visibleState: string;
+
+  constructor(private renderer: Renderer2) {
+    this.visibleState = 'invisible';
+  }
 
   ngOnInit() {
     if (this.container) {
-      this.container.addEventListener('scroll', () => this.onScroll());
+      this.renderer.listen(
+        this.container, 'scroll', this.onScroll.bind(this));
     }
   }
 
@@ -40,7 +45,7 @@ export class BackToTopComponent implements OnInit {
   }
 
   private onScroll(): void {
-    this.state = (this.container.scrollTop > 0) ? 'visible' : 'invisible';
+    this.visibleState = (this.container.scrollTop > 0) ? 'visible' : 'invisible';
   }
 
 }
