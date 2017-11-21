@@ -18,8 +18,7 @@ export class SearchComponent {
     label: 'Available',
     isSelected: true
   }];
-
-  private isSearching: boolean = false;
+  isSearching: boolean = false;
 
   constructor(private booksService: BooksService) { }
 

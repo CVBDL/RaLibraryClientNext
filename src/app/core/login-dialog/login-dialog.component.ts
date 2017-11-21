@@ -17,9 +17,9 @@ export class LoginDialogComponent implements OnInit {
   username: string;
   password: string;
   hasError: boolean = false;
+  isLoading: boolean = false;
+  isSignIn: boolean = false;
 
-  private isLoading: boolean = false;
-  private isSignIn: boolean = false;
   private name: string;
 
   constructor(
