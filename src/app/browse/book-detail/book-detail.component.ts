@@ -78,7 +78,7 @@ export class BookDetailComponent implements OnInit {
   }
 
   private borrow(id: number): void {
-    this.usersService.borrow(id)
+    this.usersService.borrowBook(id)
       .subscribe(
         () => {
           this.showMessage('Success', 'Borrow');

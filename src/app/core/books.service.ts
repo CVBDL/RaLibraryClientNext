@@ -2,38 +2,53 @@ import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 
 import { Observable } from 'rxjs/Observable';
-import { from } from 'rxjs/observable/from';
 import { of } from 'rxjs/observable/of';
-import { switchMap, tap } from 'rxjs/operators';
+import {
+  switchMap,
+  tap
+} from 'rxjs/operators';
 
-import { Book } from "../shared/book";
+import { Book } from "../shared/book.model";
 
 @Injectable()
 export class BooksService {
-  readonly rootEndpoint: string = 'https://APCNDAEC3YCS12.ra-int.com/ralibrary/api/books';
+  readonly rootEndpoint: string;
 
-  private booksCache: Book[];
+  /** Books cache. */
+  private books: Book[];
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {
+    this.rootEndpoint = 'https://APCNDAEC3YCS12.ra-int.com/ralibrary/api/books';
+    this.books = [];
+  }
 
+  /**
+   * List all the books data from cache or from server.
+   * @param force Force to fetch books from server.
+   */
   list(force: boolean = false): Observable<Book[]> {
-    if (!force && this.booksCache) {
-      return of(this.booksCache);
+    if (!force && this.hasCache()) {
+      return of(this.books);
 
     } else {
-      return this.http.get<Book[]>(this.rootEndpoint)
-        .pipe(
-          tap(data => this.booksCache = data)
-        );
+      return this.http
+        .get<Book[]>(this.rootEndpoint)
+        .pipe(tap(data => { this.books = data; }));
     }
   }
 
+  /**
+   * Get a single book data.
+   * @param id Book's id.
+   * @param force If true, force to fetch books from server.
+   */
   get(id: number, force: boolean = false): Observable<Book> {
-    if (!force && this.booksCache) {
-      let filteredBook: Book[] = this.booksCache.filter(book => book.Id === id);
+    // first, find in cache when not use force
+    if (!force && this.hasCache()) {
+      let book: Book | undefined = this.books.find(book => book.Id === id);
 
-      if (filteredBook.length) {
-        return from(filteredBook);
+      if (book) {
+        return of(book);
       }
     }
 
@@ -41,39 +56,39 @@ export class BooksService {
   }
 
   /**
-   * Internal use.
+   * Update book data in cache.
+   * @param id Book's id.
+   * @param book Updated book data.
    */
-  _borrowFromCache(id: number): void {
-    if (this.booksCache && this.booksCache.length) {
-      this.booksCache.forEach(book => {
-        if (book.Id === id) {
-          book.IsBorrowed = true;
-        }
-      });
-    }
+  updateBookInCache(id: number, book: {}): void {
+    if (!this.hasCache()) return;
+
+    this.books.forEach(b => {
+      if (b.Id === id) {
+        Object.assign(b, book);
+      }
+    });
   }
 
   /**
-   * Internal use.
+   * Check cache books.
    */
-  _returnFromCache(id: number): void {
-    if (this.booksCache && this.booksCache.length) {
-      this.booksCache.forEach(book => {
-        if (book.Id === id) {
-          book.IsBorrowed = false;
-        }
-      });
-    }
+  private hasCache(): boolean {
+    return Array.isArray(this.books) && this.books.length > 0;
   }
 
+  /**
+   * Get a single book from server.
+   * @param id Book's id.
+   */
   private getRemote(id: number): Observable<Book> {
+    const endpoint = `${this.rootEndpoint}/${id}`;
+
     return this.http
-      .get<Book[]>(this.rootEndpoint)
+      .get<Book>(endpoint)
       .pipe(
-        switchMap(books => {
-          return books.filter(book => {
-            return book.Id === id;
-          });
+        tap(book => {
+          this.updateBookInCache(id, book);
         })
       );
   }

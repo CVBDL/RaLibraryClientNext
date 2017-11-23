@@ -60,7 +60,7 @@ export class ProfileComponent implements OnInit {
   private loadBorrowedBooks(): void {
     this.isLoading = true;
 
-    this.usersService.listBorrowedBooks()
+    this.usersService.listMyBooks()
       .subscribe(
         data => {
           this.isLoading = false;

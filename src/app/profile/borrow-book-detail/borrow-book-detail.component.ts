@@ -4,8 +4,8 @@ import { DatePipe } from '@angular/common';
 import { MatDialog, MatSnackBar } from '@angular/material';
 
 import { Observable } from 'rxjs/Observable';
-import { of } from 'rxjs/observable/of';
-import { filter, switchMap, tap } from 'rxjs/operators';
+import { from } from 'rxjs/observable/from';
+import { filter, switchMap } from 'rxjs/operators';
 
 import { BorrowedBook } from "../../shared/borrowed-book";
 import { BooksService } from "../../core/books.service";
@@ -19,24 +19,27 @@ import { UsersService } from "../../core/users.service";
 })
 export class BorrowBookDetailComponent implements OnInit {
   book: BorrowedBook;
-  isReturned: boolean = false;
+  isReturned: boolean;
 
   constructor(
-    public dialog: MatDialog,
-    public snackBar: MatSnackBar,
-    private route: ActivatedRoute,
-    private booksService: BooksService,
-    private errHandler: HttpErrorHandlerService,
-    private usersService: UsersService
-  ) { }
+      public dialog: MatDialog,
+      public snackBar: MatSnackBar,
+      private route: ActivatedRoute,
+      private booksService: BooksService,
+      private errHandler: HttpErrorHandlerService,
+      private usersService: UsersService) {
+
+    this.isReturned = false;
+  }
 
   ngOnInit() {
     this.route.paramMap
       .pipe(
         switchMap((params: ParamMap) => {
-          return this.usersService.listCachedBorrowedBooks()
+          return this.usersService.listMyBooks()
             .pipe(
-              filter(borrow => borrow.Book.Id === Number(params.get('id')))
+              switchMap(books => from(books)),
+              filter(book => book.Book.Id === Number(params.get('id')))
             );
         })
       )
@@ -71,7 +74,7 @@ export class BorrowBookDetailComponent implements OnInit {
   }
 
   private return(id: number) {
-    this.usersService.return(id)
+    this.usersService.returnBook(id)
       .subscribe(
         () => {
           this.showMessage('Success', 'Return');

@@ -2,69 +2,90 @@ import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 
 import { Observable } from 'rxjs/Observable';
-import { from } from 'rxjs/observable/from';
-import { of } from 'rxjs/observable/of';
 import { tap } from 'rxjs/operators';
 
-import { Book } from "../shared/book";
 import { BooksService } from "../core/books.service";
-import { BorrowedBook } from "../shared/borrowed-book";
+import { BorrowedBook } from "../shared/borrowed-book.model";
+import { UserProfile } from "./user-profile.model";
 
 @Injectable()
 export class UsersService {
-  private rootEndpoint: string = 'https://APCNDAEC3YCS12.ra-int.com/ralibrary/api/user';
-  private profileCache: UserProfile = null;
-  private borrowedBookdsCache: BorrowedBook[] = [];
+  readonly  rootEndpoint: string;
+
+  private profile: UserProfile;
+  private books: BorrowedBook[];
 
   constructor(
-    private http: HttpClient,
-    private booksService: BooksService) { }
+      private http: HttpClient,
+      private booksService: BooksService) {
 
+    this.rootEndpoint = 'https://APCNDAEC3YCS12.ra-int.com/ralibrary/api/user';
+    this.books = [];
+  }
+
+  /**
+   * Get user profile from server and cache it.
+   */
   getProfile(): Observable<UserProfile> {
-    const endpoint = this.rootEndpoint + '/details';
-    return this.http.get<UserProfile>(endpoint)
+    const endpoint = `${this.rootEndpoint}/details`;
+
+    return this.http
+      .get<UserProfile>(endpoint)
       .pipe(
-        tap(data => this.profileCache = data)
+        tap(data => {
+          this.profile = data;
+        })
       );
   }
 
-  getCachedProfile(): Observable<UserProfile> {
-    return of<UserProfile>(this.profileCache);
-  }
+  /**
+   * List all of my currently borrowed books.
+   */
+  listMyBooks(): Observable<BorrowedBook[]> {
+    const endpoint = `${this.rootEndpoint}/books`;
 
-  listBorrowedBooks(): Observable<BorrowedBook[]> {
-    // return this.http.get<BorrowedBook[]>('/assets/mock/borrow-books.json');;
-    const endpoint = this.rootEndpoint + '/books';
-    return this.http.get<BorrowedBook[]>(endpoint)
+    return this.http
+      .get<BorrowedBook[]>(endpoint)
       .pipe(
-        tap(data => this.borrowedBookdsCache = data)
+        tap(data => {
+          this.books = data;
+        })
       );
   }
 
-  listCachedBorrowedBooks(): Observable<BorrowedBook> {
-    return from(this.borrowedBookdsCache);
-  }
-
-  borrow(id: number) {
-    const endpoint = `${this.rootEndpoint}/books/${id}`;
-    return this.http.post(endpoint, '')
-      .pipe(
-        tap(() => this.booksService._borrowFromCache(id))
-      );
-  }
-
-  return(id: number) {
+  /**
+   * Borrow a book.
+   * @param id Book's id.
+   */
+  borrowBook(id: number) {
     const endpoint = `${this.rootEndpoint}/books/${id}`;
 
-    return this.http.delete(endpoint)
+    return this.http
+      .post(endpoint, null)
       .pipe(
-        tap(() => this.booksService._returnFromCache(id))
+        tap(() => {
+          this.booksService.updateBookInCache(id, {
+            IsBorrowed: true
+          });
+        })
       );
   }
-}
 
-interface UserProfile {
-  Email: string,
-  Name: string,
-  IsAdmin: boolean
+  /**
+   * Return a book.
+   * @param id Book's id.
+   */
+  returnBook(id: number) {
+    const endpoint = `${this.rootEndpoint}/books/${id}`;
+
+    return this.http
+      .delete(endpoint)
+      .pipe(
+        tap(() => {
+          this.booksService.updateBookInCache(id, {
+            IsBorrowed: false
+          });
+        })
+      );
+  }
 }

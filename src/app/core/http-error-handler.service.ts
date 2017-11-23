@@ -5,10 +5,25 @@ import { MatSnackBar } from '@angular/material';
 @Injectable()
 export class HttpErrorHandlerService {
 
-  constructor(public snackBar: MatSnackBar) { }
+  constructor(private snackBar: MatSnackBar) { }
 
+  /**
+   * Handle HTTP response errors.
+   * @param err
+   */
   handle(err: HttpErrorResponse): void {
+    let message = this.determineMessage(err);
+
+    this.showMessage(message);
+  }
+
+  /**
+   * Determine message to display.
+   * @param err 
+   */
+  private determineMessage(err: HttpErrorResponse): string {
     let message: string = '';
+
     if (err.error instanceof Error) {
       message = 'Application Error.';
 
@@ -32,6 +47,14 @@ export class HttpErrorHandlerService {
       }
     }
 
+    return message;
+  }
+
+  /**
+   * Show the error message.
+   * @param message Error message.
+   */
+  private showMessage(message: string): void {
     this.snackBar.open(message, 'Network', {
       extraClasses: ['ral-error']
     });

@@ -12,13 +12,11 @@ Run `ng generate component component-name` to generate a new component. You can 
 
 ## Build
 
-Run `ng build --prod --build-optimizer --base-href=/ralibraryclient/`
-
 Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `-prod` flag for a production build.
 
 ## Build Production
 
-
+Run `ng build --prod --build-optimizer --base-href=/ralibraryclient/`
 
 ## Running unit tests
 

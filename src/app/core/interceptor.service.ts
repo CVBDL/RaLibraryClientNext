@@ -12,7 +12,6 @@ import { AuthenticationService } from "./authentication.service";
 
 @Injectable()
 export class Interceptor implements HttpInterceptor {
-
   constructor(private injector: Injector) { }
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
@@ -29,6 +28,7 @@ export class Interceptor implements HttpInterceptor {
     const authReq = req.clone({
       setHeaders: { Authorization: `${tokenType} ${token}` }
     });
+
     return next.handle(authReq);
   }
 }
