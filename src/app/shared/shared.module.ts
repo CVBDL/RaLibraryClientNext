@@ -16,7 +16,6 @@ import {
 import { BackToTopComponent } from './back-to-top/back-to-top.component';
 import { BookComponent } from './book/book.component';
 import { CardComponent } from "./card/card.component";
-import { LaunchScreenComponent } from './launch-screen/launch-screen.component';
 import { ProgressComponent } from './progress/progress.component';
 import { ToolbarComponent } from './toolbar/toolbar.component';
 import { TroubleshootingComponent } from './troubleshooting/troubleshooting.component';
@@ -38,7 +37,6 @@ import { TroubleshootingComponent } from './troubleshooting/troubleshooting.comp
     BookComponent,
     CardComponent,
     FlexLayoutModule,
-    LaunchScreenComponent,
     MatButtonModule,
     MatCardModule,
     MatChipsModule,
@@ -53,7 +51,6 @@ import { TroubleshootingComponent } from './troubleshooting/troubleshooting.comp
     BackToTopComponent,
     BookComponent,
     CardComponent,
-    LaunchScreenComponent,
     ProgressComponent,
     TroubleshootingComponent,
     ToolbarComponent

@@ -5,6 +5,7 @@ import { Observable } from 'rxjs/Observable';
 
 import { AuthenticationService } from "../core/authentication.service";
 import { BorrowedBook } from "../shared/borrowed-book";
+import { LaunchScreenService } from "../core/launch-screen.service";
 import { LoginDialogComponent } from "../core/login-dialog/login-dialog.component";
 import { UsersService } from "../core/users.service";
 
@@ -25,6 +26,7 @@ export class ProfileComponent implements OnInit {
   constructor(
     public dialog: MatDialog,
     private auth: AuthenticationService,
+    private launchScreen: LaunchScreenService,
     private usersService: UsersService) { }
 
   ngOnInit() {
@@ -36,13 +38,14 @@ export class ProfileComponent implements OnInit {
         this.loadBorrowedBooks();
 
       } else {
-        let dialogRef = this.dialog.open(LoginDialogComponent);
-  
-        dialogRef.afterClosed().subscribe(() => {
-          if (this.auth.isAuthenticated) {
-            this.loadBorrowedBooks();
-          }
-        });
+        let launchScreenRef = this.launchScreen.getLaunchScreenRef();
+
+        if (launchScreenRef) {
+          launchScreenRef.afterClosed().subscribe(this.openLoginDialog.bind(this));
+
+        } else {
+          this.openLoginDialog();
+        }
       }
     });
   }
@@ -55,6 +58,16 @@ export class ProfileComponent implements OnInit {
     if (this.auth.isAuthenticated) {
       this.loadBorrowedBooks();
     }
+  }
+
+  private openLoginDialog() {
+    let dialogRef = this.dialog.open(LoginDialogComponent);
+    
+    dialogRef.afterClosed().subscribe(() => {
+      if (this.auth.isAuthenticated) {
+        this.loadBorrowedBooks();
+      }
+    });
   }
 
   private loadBorrowedBooks(): void {

@@ -9,7 +9,6 @@ import { AuthenticationService } from "../authentication.service";
 import { UsersService } from "../users.service";
 
 @Component({
-  selector: 'ral-login-dialog',
   templateUrl: './login-dialog.component.html',
   styleUrls: ['./login-dialog.component.scss']
 })
@@ -23,7 +22,7 @@ export class LoginDialogComponent implements OnInit {
   private name: string;
 
   constructor(
-    public dialogRef: MatDialogRef<LoginDialogComponent>,
+    private dialogRef: MatDialogRef<LoginDialogComponent>,
     private auth: AuthenticationService,
     private usersService: UsersService) { }
 
@@ -31,7 +30,8 @@ export class LoginDialogComponent implements OnInit {
     this.isSignIn = this.auth.isAuthenticated;
 
     if (this.isSignIn) {
-      this.usersService.getProfile()
+      this.usersService
+        .getProfile()
         .subscribe(data => {
           this.name = data.Name;
         });
@@ -42,8 +42,8 @@ export class LoginDialogComponent implements OnInit {
     if (!this.username || !this.password) return;
 
     this.isLoading = true;
-
-    this.auth.login(this.username, this.password)
+    this.auth
+      .login(this.username, this.password)
       .subscribe(() => {
         this.isLoading = false;
         this.hasError = false;

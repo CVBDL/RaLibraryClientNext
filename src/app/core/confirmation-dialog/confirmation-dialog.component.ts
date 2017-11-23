@@ -7,15 +7,21 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 })
 export class ConfirmationDialogComponent {
   constructor(
-    public dialogRef: MatDialogRef<ConfirmationDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: any) { }
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    private dialogRef: MatDialogRef<ConfirmationDialogComponent>) { }
 
-  onClickNo() {
-    this.dialogRef.close(false);
-  }
-
+  /**
+   * OK button callback.
+   */
   onClickYes() {
     this.dialogRef.close(true);
+  }
+
+  /**
+   * Cancel button callback.
+   */
+  onClickNo() {
+    this.dialogRef.close(false);
   }
 
 }

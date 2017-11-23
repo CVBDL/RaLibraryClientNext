@@ -12,8 +12,8 @@ import { UserProfile } from "./user-profile.model";
 export class UsersService {
   readonly  rootEndpoint: string;
 
-  private profile: UserProfile;
   private books: BorrowedBook[];
+  private profile: UserProfile;
 
   constructor(
       private http: HttpClient,

@@ -19,6 +19,8 @@ import { BooksService } from "./books.service";
 import { ConfirmationDialogComponent } from './confirmation-dialog/confirmation-dialog.component';
 import { HttpErrorHandlerService } from "./http-error-handler.service";
 import { Interceptor } from "./interceptor.service";
+import { LaunchScreenComponent } from "./launch-screen/launch-screen.component";
+import { LaunchScreenService } from "./launch-screen.service";
 import { LoginDialogComponent } from './login-dialog/login-dialog.component';
 import { NavComponent } from './nav/nav.component';
 import { UsersService } from "./users.service";
@@ -38,12 +40,14 @@ import { UsersService } from "./users.service";
     SharedModule
   ],
   exports: [
+    LaunchScreenComponent,
     NavComponent
   ],
   providers: [
     AuthenticationService,
     BooksService,
     HttpErrorHandlerService,
+    LaunchScreenService,
     UsersService,
     {
       provide: HTTP_INTERCEPTORS,
@@ -53,6 +57,7 @@ import { UsersService } from "./users.service";
   ],
   declarations: [
     ConfirmationDialogComponent,
+    LaunchScreenComponent,
     LoginDialogComponent,
     NavComponent
   ]
