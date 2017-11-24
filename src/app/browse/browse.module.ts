@@ -15,9 +15,9 @@ import { BrowseComponent } from './browse.component';
     SharedModule
   ],
   declarations: [
+    BookDetailComponent,
     BookListComponent,
-    BrowseComponent,
-    BookDetailComponent
+    BrowseComponent
   ]
 })
 export class BrowseModule { }

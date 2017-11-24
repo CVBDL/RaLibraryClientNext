@@ -1,8 +1,13 @@
-import { ActivatedRoute, ParamMap } from "@angular/router";
+import {
+  ActivatedRoute,
+  ParamMap,
+  Router
+} from "@angular/router";
 import { Component, OnInit } from '@angular/core';
 import { MatDialog, MatSnackBar } from '@angular/material';
 
 import { Observable } from 'rxjs/Observable';
+import { _throw as rxThrow } from "rxjs/observable/throw";
 import { filter, switchMap } from 'rxjs/operators';
 
 import { AuthenticationService } from "../../core/authentication.service";
@@ -18,31 +23,47 @@ import { UsersService } from "../../core/users.service";
   styleUrls: ['./book-detail.component.scss']
 })
 export class BookDetailComponent implements OnInit {
-  book: Book;
-  isBorrowed: boolean = true;
+  book: Book | null;
 
-  private readonly defaultThumbnailLink = './assets/img/book_cover.jpg';
+  private readonly defaultThumbnailLink: string;
 
   constructor(
-    public dialog: MatDialog,
-    public snackBar: MatSnackBar,
-    private auth: AuthenticationService,
-    private booksService: BooksService,
-    private errHandler: HttpErrorHandlerService,
-    private route: ActivatedRoute,
-    private usersService: UsersService) { }
+      private dialog: MatDialog,
+      private snackBar: MatSnackBar,
+      private auth: AuthenticationService,
+      private booksService: BooksService,
+      private errHandler: HttpErrorHandlerService,
+      private route: ActivatedRoute,
+      private router: Router,
+      private usersService: UsersService) {
+    this.book = null;
+    this.defaultThumbnailLink = './assets/img/book_cover.jpg';
+  }
 
   ngOnInit() {
     this.route.paramMap
       .pipe(
-        switchMap((params: ParamMap) =>
-          this.booksService.get(Number(params.get('id'))))
+        switchMap((params: ParamMap) => {
+          const id: number = Number(params.get('id'));
+
+          if (Number.isNaN(id)) {
+            return rxThrow(ERROR_TYPE.INVALID_ID);
+
+          } else {
+            return this.booksService.get(id);
+          }
+        })
       )
       .subscribe(data => {
         this.book = data;
-        
+
         if (this.book && !this.book.ThumbnailLink) {
           this.book.ThumbnailLink = this.defaultThumbnailLink;
+        }
+
+      }, err => {
+        if (err === ERROR_TYPE.INVALID_ID) {
+          this.router.navigateByUrl('/browse/books');
         }
       });
   }
@@ -56,14 +77,18 @@ export class BookDetailComponent implements OnInit {
           if (this.auth.isAuthenticated) {
             this.confirm()
               .pipe(filter(data => data === true))
-              .subscribe(() => this.borrow(id));
+              .subscribe(() => {
+                this.borrow(id);
+              });
           }
         });
 
     } else {
       this.confirm()
         .pipe(filter(data => data === true))
-        .subscribe(() => this.borrow(id));
+        .subscribe(() => {
+          this.borrow(id);
+        });
     }
   }
 
@@ -79,14 +104,15 @@ export class BookDetailComponent implements OnInit {
 
   private borrow(id: number): void {
     this.usersService.borrowBook(id)
-      .subscribe(
-        () => {
-          this.showMessage('Success', 'Borrow');
+      .subscribe(() => {
+        this.showMessage('Success', 'Borrow');
+        if (this.book) {
           this.book.IsBorrowed = true;
-        },
-        err => {
-          this.errHandler.handle(err);
-        });
+        }
+
+      }, err => {
+        this.errHandler.handle(err);
+      });
   }
 
   private showMessage(message: string, action: string): void {
@@ -95,4 +121,8 @@ export class BookDetailComponent implements OnInit {
     });
   }
 
+}
+
+enum ERROR_TYPE {
+  INVALID_ID
 }
