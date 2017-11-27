@@ -13,15 +13,13 @@
     <mat-chip-list multiple="true">
       <mat-chip
           *ngFor="let filter of filters"
-          [selected]="filter.isSelected"
-          (click)="filter.isSelected = !filter.isSelected">
-        {{filter.label}}</mat-chip>
+          [selected]="filter.isOn"
+          (click)="filter.isOn = !filter.isOn">{{filter.label}}</mat-chip>
     </mat-chip-list>
   </div>
   <div class="books-container" fxLayout="row" fxLayoutWrap fxFlex="nogrow">
-    <div class="ral-book-wrapper"
-        *ngFor="let book of books"
-        fxFlex="1 0 150px">
+    <div class="ral-book-wrapper" fxFlex="1 0 150px"
+        *ngFor="let book of books">
       <ral-book
         [book]="book"
         [routerLink]="['/browse/books', book.Id]"></ral-book>

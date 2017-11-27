@@ -1,72 +1,81 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 import { Observable } from 'rxjs/Observable';
-import { map, filter, switchMap } from 'rxjs/operators';
+import {
+  filter,
+  map,
+  switchMap
+} from 'rxjs/operators';
 
-import { Book } from "../shared/book";
+import { AvailableBooksFilter } from "./filter-available-books";
+import { Book } from "../shared/book.model";
 import { BooksService } from "../core/books.service";
+import { Filter } from "./filter";
 
 @Component({
-  selector: 'ral-search',
   templateUrl: './search.component.html',
   styleUrls: ['./search.component.scss']
 })
-export class SearchComponent {
+export class SearchComponent implements OnInit {
   books: Book[];
-  keyword: string = '';
-  filters: any[] = [{
-    label: 'Available',
-    isSelected: true
-  }];
-  isSearching: boolean = false;
+  filters: Filter<Book>[];
+  isSearching: boolean;
+  keyword: string;
 
-  constructor(private booksService: BooksService) { }
+  constructor(private booksService: BooksService) {
+    this.books = [];
+    this.filters = [];
+    this.isSearching = false;
+    this.keyword = '';
+  }
 
+  ngOnInit(): void {
+    this.filters.push(new AvailableBooksFilter());
+  }
+
+  /**
+   * Search books by keywords and filters.
+   */
   search(): void {
-    let isAvailableFilterOn: boolean = this.filters[0].isSelected,
-      kw = this.keyword;
-
     this.isSearching = true;
-    this.booksService.list()
+    this.booksService
+      .list()
       .pipe(
-        map(this.selectKeyword(kw)),
-        map(this.selectAvailable(isAvailableFilterOn))
+        map(this.selectKeyword(this.keyword)),
+        map(this.applyFilters())
       )
       .subscribe(
         data => {
           this.books = data;
+        },
+        (err) => {
           this.isSearching = false;
         },
-        () => this.isSearching = false);
+        () => {
+          this.isSearching = false;
+        });
   }
 
-  private selectKeyword(keyword: string = ''): (b: Book[]) => Book[] {
-    return function(books: Book[]): Book[] {
-      let filteredBooks: Book[] = [];
-      books.forEach(book => {
-        if (book.Title.toLowerCase().includes(keyword.toLowerCase())) {
-          filteredBooks.push(book);
-        }
-      });
-      return filteredBooks;
+  /**
+   * Returns a function that apply all the custom filters.
+   */
+  private applyFilters(): (books: Book[]) => Book[] {
+    return (books: Book[]): Book[] => {
+      return this.filters.reduce((filteredBooks, filter) => {
+        return filter.filter(filteredBooks);
+      }, books);
     };
   }
 
   /**
-   * Available means a book is not borrowed by others.
-   * @param {boolen} isOn  Enable this filter or not.
+   * Returns a function that filter books by keyword.
+   * @param keyword Search keyword.
    */
-  private selectAvailable(isOn: boolean = false): (b: Book[]) => Book[] {
-    return function(books: Book[]): Book[] {
-      if (!isOn) return books;
-
-      let filteredBooks: Book[] = [];
-      books.forEach(book => {
-        if (!book.IsBorrowed) {
-          filteredBooks.push(book);
-        }
+  private selectKeyword(keyword: string = ''): (b: Book[]) => Book[] {
+    return (books: Book[]): Book[] => {
+      return books.filter(book => {
+        return book.Title.toLowerCase().includes(keyword.toLowerCase());
       });
-      return filteredBooks;
     };
   }
 
