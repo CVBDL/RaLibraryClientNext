@@ -10,7 +10,7 @@ import { Book } from "../book";
 })
 export class CardComponent implements OnInit {
   @Input() book: Book;
-  @Input() borrowData: {} = null;
+  @Input() borrowData: {};
   @Input() hasBorrow: boolean = true;
   @Input() hasReturn: boolean = true;
   @Output() onBorrow = new EventEmitter<number>();
@@ -20,7 +20,7 @@ export class CardComponent implements OnInit {
 
   ngOnInit() {
     if (this.book.ThumbnailLink) {
-      let img = new Image();
+      let img: HTMLImageElement | null = new Image();
       img.src = this.book.ThumbnailLink;
       img.onload = () => {
         this.thumbnailLink = this.book.ThumbnailLink;

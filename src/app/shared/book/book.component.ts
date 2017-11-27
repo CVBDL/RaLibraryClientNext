@@ -16,7 +16,7 @@ export class BookComponent implements OnInit {
 
   ngOnInit() {
     if (this.book.ThumbnailLink) {
-      let img = new Image();
+      let img: HTMLImageElement | null = new Image();
       img.src = this.book.ThumbnailLink;
       img.onload = () => {
         this.thumbnailLink = this.book.ThumbnailLink;
