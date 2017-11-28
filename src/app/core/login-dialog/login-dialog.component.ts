@@ -38,35 +38,45 @@ export class LoginDialogComponent implements OnInit {
     }
   }
 
+  /**
+   * Sign in button callback.
+   */
   onClickSignIn(): void {
     if (!this.username || !this.password) return;
 
     this.isLoading = true;
     this.auth
       .login(this.username, this.password)
-      .subscribe(() => {
-        this.isLoading = false;
-        this.hasError = false;
-        this.dialogRef.close();
-
-      }, () => {
-        this.isLoading = false;
-        this.hasError = true;
-      });
+      .subscribe(
+        () => {
+          this.isLoading = false;
+          this.hasError = false;
+          this.dialogRef.close('signin');
+        },
+        () => {
+          this.isLoading = false;
+          this.hasError = true;
+        });
   }
 
+  /**
+   * Sign out button callback.
+   */
   onClickSignOut(): void {
     this.auth.logout();
     this.isLoading = false;
     this.isSignIn = false;
     this.hasError = false;
-    this.dialogRef.close();
+    this.dialogRef.close('signout');
   }
 
+  /**
+   * Cancel button callback.
+   */
   onClickCancel(): void {
     this.isLoading = false;
     this.hasError = false;
-    this.dialogRef.close();
+    this.dialogRef.close('cancel');
   }
 
 }

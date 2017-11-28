@@ -10,10 +10,16 @@ export class LaunchScreenService {
     this.launchScreenRef = null;
   }
 
+  /**
+   * Get launch screen component instance reference.
+   */
   getLaunchScreenRef(): LaunchScreenComponent | null {
     return this.launchScreenRef;
   }
 
+  /**
+   * Set launch screen component instance reference.
+   */
   setLaunchScreenRef(ref: LaunchScreenComponent) {
     if (this.launchScreenRef) {
       throw new Error('Duplicate launch screen component instances are not expected.');
