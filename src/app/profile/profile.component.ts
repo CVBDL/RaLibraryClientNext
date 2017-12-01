@@ -16,19 +16,20 @@ import { UsersService } from "../core/users.service";
 })
 export class ProfileComponent implements OnInit {
   books: BorrowedBook[];
-  overdueBooks: BorrowedBook[];
-  willOverdueBooks: BorrowedBook[];
-  normalBooks: BorrowedBook[];
+  booksClassification: {
+    [key: string]: BorrowedBook[]
+  };
   isLoading: boolean;
 
   private readonly threshold: number = 7 * 24 * 60 * 60 * 1000;
 
   constructor(
-      public dialog: MatDialog,
+      private dialog: MatDialog,
       private auth: AuthenticationService,
       private launchScreen: LaunchScreenService,
       private router: Router,
       private usersService: UsersService) {
+    this.booksClassification = {};
     this.isLoading = false;
   }
 
@@ -93,9 +94,7 @@ export class ProfileComponent implements OnInit {
       .subscribe(
         data => {
           this.books = this.sortBooks(data);
-          this.overdueBooks = this.findOverdueBooks(this.books);
-          this.willOverdueBooks = this.findWillOverdueBooks(this.books);
-          this.normalBooks = this.findNormalBooks(this.books);
+          this.booksClassification = this.classifyBooksByExpectedReturnTime(this.books);
         },
         () => {
           this.isLoading = false;
@@ -107,7 +106,36 @@ export class ProfileComponent implements OnInit {
 
   private sortBooks(books: BorrowedBook[]): BorrowedBook[] {
     return books.sort((a, b) => {
-      return new Date(b.ExpectedReturnTime).getTime() - new Date(a.ExpectedReturnTime).getTime();
+      return (this.getTimestamp(b.ExpectedReturnTime)
+              - this.getTimestamp(a.ExpectedReturnTime));
+    });
+  }
+
+  private classifyBooksByExpectedReturnTime(books: BorrowedBook[]) {
+    const now = Date.now();
+
+    let normal: BorrowedBook[] = [];
+    let aboutOverdue: BorrowedBook[] = [];
+    let overdue: BorrowedBook[] = [];
+
+    books.forEach(book => {
+      const timestamp = this.getTimestamp(book.ExpectedReturnTime);
+
+      if (timestamp <= now) {
+        overdue.push(book);
+
+      } else if (timestamp > now && timestamp <= now + this.threshold) {
+        aboutOverdue.push(book);
+
+      } else {
+        normal.push(book);
+      }
+    });
+
+    return ({
+      normal,
+      aboutOverdue,
+      overdue
     });
   }
 
@@ -115,7 +143,7 @@ export class ProfileComponent implements OnInit {
     const now = Date.now();
 
     return books.filter(book => {
-      const timestamp = new Date(book.ExpectedReturnTime).getTime();
+      const timestamp = this.getTimestamp(book.ExpectedReturnTime);
       return timestamp <= now;
     });
   }
@@ -124,7 +152,7 @@ export class ProfileComponent implements OnInit {
     const now = Date.now();
 
     return books.filter(book => {
-      const timestamp = new Date(book.ExpectedReturnTime).getTime();
+      const timestamp = this.getTimestamp(book.ExpectedReturnTime);
       return timestamp > now && timestamp <= now + this.threshold;
     });
   }
@@ -133,9 +161,17 @@ export class ProfileComponent implements OnInit {
     const now = Date.now();
 
     return books.filter(book => {
-      const timestamp = new Date(book.ExpectedReturnTime).getTime();
+      const timestamp = this.getTimestamp(book.ExpectedReturnTime);
       return timestamp > now + this.threshold;
     });
+  }
+
+  /**
+   * Get the milliseconds elapsed since the UNIX epoch.
+   * @param date ISO 8601 date string.
+   */
+  private getTimestamp(date: string): number {
+    return new Date(date).getTime();
   }
 
 }

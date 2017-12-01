@@ -13,32 +13,32 @@
     <ral-progress message="Getting your books"></ral-progress>
   </div>
   <div class="books-container" fxFlex="nogrow" fxLayout="row" fxLayoutWrap>
-    <div fxFlex="100" *ngIf="overdueBooks?.length" class="overdue" fxLayout="row" fxLayoutAlign="start center">
+    <div fxFlex="100" *ngIf="booksClassification.overdue?.length" class="overdue" fxLayout="row" fxLayoutAlign="start center">
       <mat-icon aria-label="Overdue books">sentiment_very_dissatisfied</mat-icon>
-      <span class="mat-caption">Overdue ({{overdueBooks?.length || 0}})</span>
+      <span class="mat-caption">Overdue ({{booksClassification.overdue?.length || 0}})</span>
     </div>
     <div class="ral-book-wrapper" fxFlex="0 0 150px"
-        *ngFor="let book of overdueBooks">
+        *ngFor="let book of booksClassification.overdue">
       <ral-book
         [book]="book.Book"
         [routerLink]="['/profile/books', book.Book.Id]"></ral-book>
     </div>
-    <div fxFlex="100" *ngIf="willOverdueBooks?.length" class="will-overdue" fxLayout="row" fxLayoutAlign="start center">
+    <div fxFlex="100" *ngIf="booksClassification.aboutOverdue?.length" class="will-overdue" fxLayout="row" fxLayoutAlign="start center">
       <mat-icon aria-label="Overdue soon">sentiment_neutral</mat-icon>
-      <span class="mat-caption">Overdue Soon ({{willOverdueBooks?.length || 0}})</span>
+      <span class="mat-caption">Overdue Soon ({{booksClassification.aboutOverdue?.length || 0}})</span>
     </div>
     <div class="ral-book-wrapper" fxFlex="0 0 150px"
-        *ngFor="let book of willOverdueBooks">
+        *ngFor="let book of aboutOverdue">
       <ral-book
         [book]="book.Book"
         [routerLink]="['/profile/books', book.Book.Id]"></ral-book>
     </div>
-    <div fxFlex="100" *ngIf="normalBooks?.length" class="normal" fxLayout="row" fxLayoutAlign="start center">
+    <div fxFlex="100" *ngIf="booksClassification.normal?.length" class="normal" fxLayout="row" fxLayoutAlign="start center">
       <mat-icon aria-label="Enjoy reading">sentiment_very_satisfied</mat-icon>
-      <span class="mat-caption">Enjoy Reading ({{normalBooks?.length || 0}})</span>
+      <span class="mat-caption">Enjoy Reading ({{booksClassification.normal?.length || 0}})</span>
     </div>
     <div class="ral-book-wrapper" fxFlex="0 0 150px"
-        *ngFor="let book of normalBooks">
+        *ngFor="let book of booksClassification.normal">
       <ral-book
         [book]="book.Book"
         [routerLink]="['/profile/books', book.Book.Id]"></ral-book>
