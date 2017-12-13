@@ -1,8 +1,14 @@
-import { Component, OnInit } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  OnDestroy
+} from '@angular/core';
 import { MatDialog } from '@angular/material';
 import { Router } from "@angular/router";
 
+import { Subject } from "rxjs/Subject";
 import { Observable } from 'rxjs/Observable';
+import { takeUntil } from "rxjs/operators/takeUntil";
 
 import { AuthenticationService } from "../core/authentication.service";
 import { BorrowedBook } from "../shared/borrowed-book.model";
@@ -14,7 +20,7 @@ import { UsersService } from "../core/users.service";
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.scss']
 })
-export class ProfileComponent implements OnInit {
+export class ProfileComponent implements OnInit, OnDestroy {
   books: BorrowedBook[];
   booksClassification: {
     [key: string]: BorrowedBook[]
@@ -22,6 +28,7 @@ export class ProfileComponent implements OnInit {
   isLoading: boolean;
 
   private readonly threshold: number = 7 * 24 * 60 * 60 * 1000;
+  private ngUnsubscribe: Subject<boolean>;
 
   constructor(
       private dialog: MatDialog,
@@ -31,6 +38,7 @@ export class ProfileComponent implements OnInit {
       private usersService: UsersService) {
     this.booksClassification = {};
     this.isLoading = false;
+    this.ngUnsubscribe = new Subject<boolean>();
   }
 
   ngOnInit() {
@@ -49,6 +57,7 @@ export class ProfileComponent implements OnInit {
         if (launchScreenRef) {
           launchScreenRef
             .afterClosed()
+            .pipe(takeUntil(this.ngUnsubscribe))
             .subscribe(this.openLoginDialog.bind(this));
 
         } else {
@@ -56,6 +65,11 @@ export class ProfileComponent implements OnInit {
         }
       }
     });
+  }
+
+  ngOnDestroy(): void {
+    this.ngUnsubscribe.next(true);
+    this.ngUnsubscribe.complete();
   }
 
   onClickProfile(): void {
@@ -74,6 +88,7 @@ export class ProfileComponent implements OnInit {
   private openLoginDialog() {
     this.dialog.open(LoginDialogComponent)
       .afterClosed()
+      .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe((data: string) => {
         if (this.auth.isAuthenticated && data === 'signin') {
           this.loadMyBooks();
@@ -91,6 +106,7 @@ export class ProfileComponent implements OnInit {
     this.isLoading = true;
 
     this.usersService.listMyBooks()
+      .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(
         data => {
           this.books = this.sortBooks(data);

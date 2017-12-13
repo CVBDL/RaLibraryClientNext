@@ -3,13 +3,22 @@ import {
   ParamMap,
   Router
 } from "@angular/router";
-import { Component, OnInit } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  OnDestroy
+} from '@angular/core';
 import { HttpErrorResponse } from "@angular/common/http";
 import { MatDialog, MatSnackBar } from '@angular/material';
 
+import { Subject } from "rxjs/Subject";
 import { Observable } from 'rxjs/Observable';
 import { _throw as rxThrow } from "rxjs/observable/throw";
-import { filter, switchMap } from 'rxjs/operators';
+import {
+  filter,
+  switchMap,
+  takeUntil
+} from 'rxjs/operators';
 
 import { AuthenticationService } from "../../core/authentication.service";
 import { Book } from "../../shared/book.model";
@@ -23,11 +32,12 @@ import { UsersService } from "../../core/users.service";
   templateUrl: './book-detail.component.html',
   styleUrls: ['./book-detail.component.scss']
 })
-export class BookDetailComponent implements OnInit {
+export class BookDetailComponent implements OnInit, OnDestroy {
   book: Book | null;
 
   private readonly defaultThumbnailLink: string;
   private readonly httpNotFoundError: HttpErrorResponse;
+  private ngUnsubscribe: Subject<boolean>;
 
   constructor(
       private auth: AuthenticationService,
@@ -43,6 +53,7 @@ export class BookDetailComponent implements OnInit {
     this.httpNotFoundError = new HttpErrorResponse({
       status: 404
     });
+    this.ngUnsubscribe = new Subject<boolean>();
   }
 
   ngOnInit() {
@@ -59,6 +70,7 @@ export class BookDetailComponent implements OnInit {
           }
         })
       )
+      .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(
         (data: Book) => {
           this.book = data;
@@ -71,6 +83,11 @@ export class BookDetailComponent implements OnInit {
         });
   }
 
+  ngOnDestroy(): void {
+    this.ngUnsubscribe.next(true);
+    this.ngUnsubscribe.complete();
+  }
+
   /**
    * Workflow of borrowing a book by id.
    * @param id Book's id.
@@ -80,10 +97,12 @@ export class BookDetailComponent implements OnInit {
       let dialogRef = this.dialog.open(LoginDialogComponent);
 
       dialogRef.afterClosed()
+        .pipe(takeUntil(this.ngUnsubscribe))
         .subscribe(() => {
           if (this.auth.isAuthenticated) {
             this.confirm()
               .pipe(filter(data => data === true))
+              .pipe(takeUntil(this.ngUnsubscribe))
               .subscribe(() => {
                 this.borrow(id);
               });
@@ -93,6 +112,7 @@ export class BookDetailComponent implements OnInit {
     } else {
       this.confirm()
         .pipe(filter(data => data === true))
+        .pipe(takeUntil(this.ngUnsubscribe))
         .subscribe(() => {
           this.borrow(id);
         });
@@ -118,6 +138,7 @@ export class BookDetailComponent implements OnInit {
    */
   private borrow(id: number): void {
     this.usersService.borrowBook(id)
+      .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(
         () => {
           this.showMessage('Success', 'Borrow');

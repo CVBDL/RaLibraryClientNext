@@ -1,10 +1,16 @@
-import { Component, OnInit } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  OnDestroy
+} from '@angular/core';
 
+import { Subject } from "rxjs/Subject";
 import { Observable } from 'rxjs/Observable';
 import {
   filter,
   map,
-  switchMap
+  switchMap,
+  takeUntil
 } from 'rxjs/operators';
 
 import { AvailableBooksFilter } from "./filter-available-books";
@@ -16,21 +22,29 @@ import { Filter } from "./filter";
   templateUrl: './search.component.html',
   styleUrls: ['./search.component.scss']
 })
-export class SearchComponent implements OnInit {
+export class SearchComponent implements OnInit, OnDestroy {
   books: Book[];
   filters: Filter<Book>[];
   isSearching: boolean;
   keyword: string;
+
+  private ngUnsubscribe: Subject<boolean>;
 
   constructor(private booksService: BooksService) {
     this.books = [];
     this.filters = [];
     this.isSearching = false;
     this.keyword = '';
+    this.ngUnsubscribe = new Subject<boolean>();
   }
 
   ngOnInit(): void {
     this.filters.push(new AvailableBooksFilter());
+  }
+
+  ngOnDestroy(): void {
+    this.ngUnsubscribe.next(true);
+    this.ngUnsubscribe.complete();
   }
 
   /**
@@ -44,11 +58,12 @@ export class SearchComponent implements OnInit {
         map(this.selectKeyword(this.keyword)),
         map(this.applyFilters())
       )
+      .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(
         data => {
           this.books = data;
         },
-        (err) => {
+        err => {
           this.isSearching = false;
         },
         () => {

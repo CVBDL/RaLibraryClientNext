@@ -1,11 +1,20 @@
 import { ActivatedRoute, ParamMap } from "@angular/router";
-import { Component, OnInit } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  OnDestroy
+} from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { MatDialog, MatSnackBar } from '@angular/material';
 
+import { Subject } from "rxjs/Subject";
 import { Observable } from 'rxjs/Observable';
 import { from } from 'rxjs/observable/from';
-import { filter, switchMap } from 'rxjs/operators';
+import {
+  filter,
+  switchMap,
+  takeUntil
+} from 'rxjs/operators';
 
 import { BorrowedBook } from "../../shared/borrowed-book";
 import { BooksService } from "../../core/books.service";
@@ -17,9 +26,11 @@ import { UsersService } from "../../core/users.service";
   templateUrl: './borrow-book-detail.component.html',
   styleUrls: ['./borrow-book-detail.component.scss']
 })
-export class BorrowBookDetailComponent implements OnInit {
+export class BorrowBookDetailComponent implements OnInit, OnDestroy {
   book: BorrowedBook;
   isReturned: boolean;
+
+  private ngUnsubscribe: Subject<boolean>;
 
   constructor(
       public dialog: MatDialog,
@@ -28,8 +39,8 @@ export class BorrowBookDetailComponent implements OnInit {
       private booksService: BooksService,
       private errHandler: HttpErrorHandlerService,
       private usersService: UsersService) {
-
     this.isReturned = false;
+    this.ngUnsubscribe = new Subject<boolean>();
   }
 
   ngOnInit() {
@@ -43,6 +54,7 @@ export class BorrowBookDetailComponent implements OnInit {
             );
         })
       )
+      .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(
         data => {
           this.book = data;
@@ -55,12 +67,18 @@ export class BorrowBookDetailComponent implements OnInit {
       );
   }
 
+  ngOnDestroy(): void {
+    this.ngUnsubscribe.next(true);
+    this.ngUnsubscribe.complete();
+  }
+
   returnBook(id: number): void {
     this.confirm()
-      .pipe(
-        filter(data => data === true)
-      )
-      .subscribe(() => this.return(id));
+      .pipe(filter(data => data === true))
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe(() => {
+        this.return(id);
+      });
   }
 
   private confirm(): Observable<boolean> {
@@ -73,8 +91,9 @@ export class BorrowBookDetailComponent implements OnInit {
     return confirmDialogRef.afterClosed();
   }
 
-  private return(id: number) {
+  private return(id: number): void {
     this.usersService.returnBook(id)
+      .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(
         () => {
           this.showMessage('Success', 'Return');

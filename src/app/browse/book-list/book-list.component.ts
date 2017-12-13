@@ -1,4 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  OnDestroy
+} from '@angular/core';
+
+import { Subject } from "rxjs/Subject";
+import { takeUntil } from 'rxjs/operators/takeUntil';
 
 import { Book } from "../../shared/book.model";
 import { BooksService } from "../../core/books.service";
@@ -8,19 +15,27 @@ import { HttpErrorHandlerService } from "../../core/http-error-handler.service";
   templateUrl: './book-list.component.html',
   styleUrls: ['./book-list.component.scss']
 })
-export class BookListComponent implements OnInit {
+export class BookListComponent implements OnInit, OnDestroy {
   books: Book[];
   isLoading: boolean;
+
+  private ngUnsubscribe: Subject<boolean>;
 
   constructor(
       private booksService: BooksService,
       private errHandler: HttpErrorHandlerService) {
     this.books = [];
     this.isLoading = false;
+    this.ngUnsubscribe = new Subject<boolean>();
   }
-  
+
   ngOnInit() {
     this.loadBooks();
+  }
+
+  ngOnDestroy(): void {
+    this.ngUnsubscribe.next(true);
+    this.ngUnsubscribe.complete();
   }
 
   /**
@@ -38,6 +53,7 @@ export class BookListComponent implements OnInit {
     this.isLoading = true;
     this.booksService
       .list(force)
+      .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(
         data => {
           this.books = data;
