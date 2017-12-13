@@ -74,9 +74,18 @@ export class SearchComponent implements OnInit {
   private selectKeyword(keyword: string = ''): (b: Book[]) => Book[] {
     return (books: Book[]): Book[] => {
       return books.filter(book => {
-        return book.Title.toLowerCase().includes(keyword.toLowerCase());
+        return (this.isMatchTitle(book, keyword)
+               || this.isMatchCode(book, keyword));
       });
     };
+  }
+
+  private isMatchTitle(book: Book, title: string): boolean {
+    return book.Title.toLowerCase().includes(title.toLowerCase());
+  }
+
+  private isMatchCode(book: Book, code: string): boolean {
+    return book.Code.toLowerCase() === code.toLowerCase();
   }
 
 }
