@@ -1,4 +1,8 @@
-import { ActivatedRoute, ParamMap } from "@angular/router";
+import {
+  ActivatedRoute,
+  ParamMap,
+  Router
+} from "@angular/router";
 import {
   Component,
   OnInit,
@@ -36,6 +40,7 @@ export class BorrowBookDetailComponent implements OnInit, OnDestroy {
       public dialog: MatDialog,
       public snackBar: MatSnackBar,
       private route: ActivatedRoute,
+      private router: Router,
       private booksService: BooksService,
       private errHandler: HttpErrorHandlerService,
       private usersService: UsersService) {
@@ -58,13 +63,13 @@ export class BorrowBookDetailComponent implements OnInit, OnDestroy {
       .subscribe(
         data => {
           this.book = data;
-          
           if (this.book && !this.book.Book.ThumbnailLink) {
             this.book.Book.ThumbnailLink = './assets/img/book_cover.jpg';
           }
         },
-        err => console.log(err)
-      );
+        err => {
+          this.router.navigateByUrl('/profile');
+        });
   }
 
   ngOnDestroy(): void {
