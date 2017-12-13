@@ -16,7 +16,7 @@ import {
   takeUntil
 } from 'rxjs/operators';
 
-import { BorrowedBook } from "../../shared/borrowed-book";
+import { BorrowedBook } from "../../shared/borrowed-book.model";
 import { BooksService } from "../../core/books.service";
 import { ConfirmationDialogComponent } from "../../core/confirmation-dialog/confirmation-dialog.component";
 import { HttpErrorHandlerService } from "../../core/http-error-handler.service";

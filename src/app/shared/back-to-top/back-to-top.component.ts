@@ -1,4 +1,9 @@
-import { Component, Input, OnInit, Renderer2 } from '@angular/core';
+import {
+  Component,
+  Input,
+  OnInit,
+  Renderer2
+} from '@angular/core';
 import {
   trigger,
   state,

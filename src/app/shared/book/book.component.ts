@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 
-import { Book } from "../book";
+import { Book } from "../book.model";
 
 @Component({
   selector: 'ral-book',

@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, Output, OnInit } from '@angular/core';
 
-import { Book } from "../book";
+import { Book } from "../book.model";
 
 @Component({
   selector: 'ral-card',

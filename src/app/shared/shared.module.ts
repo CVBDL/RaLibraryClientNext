@@ -18,7 +18,6 @@ import { BookComponent } from './book/book.component';
 import { CardComponent } from "./card/card.component";
 import { ProgressComponent } from './progress/progress.component';
 import { ToolbarComponent } from './toolbar/toolbar.component';
-import { TroubleshootingComponent } from './troubleshooting/troubleshooting.component';
 
 @NgModule({
   imports: [
@@ -44,15 +43,13 @@ import { TroubleshootingComponent } from './troubleshooting/troubleshooting.comp
     MatInputModule,
     MatSnackBarModule,
     ProgressComponent,
-    ToolbarComponent,
-    TroubleshootingComponent
+    ToolbarComponent
   ],
   declarations: [
     BackToTopComponent,
     BookComponent,
     CardComponent,
     ProgressComponent,
-    TroubleshootingComponent,
     ToolbarComponent
   ]
 })
