@@ -28,7 +28,7 @@
       <span class="mat-caption">Overdue Soon ({{booksClassification.aboutOverdue?.length || 0}})</span>
     </div>
     <div class="ral-book-wrapper" fxFlex="0 0 150px"
-        *ngFor="let book of aboutOverdue">
+        *ngFor="let book of booksClassification.aboutOverdue">
       <ral-book
         [book]="book.Book"
         [routerLink]="['/profile/books', book.Book.Id]"></ral-book>
