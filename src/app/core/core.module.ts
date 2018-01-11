@@ -23,6 +23,7 @@ import { LaunchScreenComponent } from "./launch-screen/launch-screen.component";
 import { LaunchScreenService } from "./launch-screen.service";
 import { LoginDialogComponent } from './login-dialog/login-dialog.component';
 import { NavComponent } from './nav/nav.component';
+import { StorageService } from "./storage.service";
 import { UsersService } from "./users.service";
 
 @NgModule({
@@ -48,6 +49,7 @@ import { UsersService } from "./users.service";
     BooksService,
     HttpErrorHandlerService,
     LaunchScreenService,
+    StorageService,
     UsersService,
     {
       provide: HTTP_INTERCEPTORS,

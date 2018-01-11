@@ -16,6 +16,7 @@ import {
 import { AvailableBooksFilter } from "./filter-available-books";
 import { Book } from "../shared/book.model";
 import { BooksService } from "../core/books.service";
+import { StorageService } from "../core/storage.service";
 import { Filter } from "./filter";
 
 @Component({
@@ -30,9 +31,13 @@ export class SearchComponent implements OnInit, OnDestroy {
   isSearching: boolean;
   keyword: string;
 
+  private readonly filtersStorageKey: string = 'searchFilters';
+  private readonly keywordStorageKey: string = 'searchKeyword';
   private ngUnsubscribe: Subject<boolean>;
 
-  constructor(private booksService: BooksService) {
+  constructor(
+      private booksService: BooksService,
+      private storage: StorageService) {
     this.books = [];
     this.filters = [];
     this.isSearching = false;
@@ -41,7 +46,24 @@ export class SearchComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.filters.push(new AvailableBooksFilter());
+    let hasInitSearch: boolean = false;
+
+    if (this.storage.getItem(this.filtersStorageKey) !== undefined) {
+      this.filters = this.storage.getItem(this.filtersStorageKey);
+      hasInitSearch = true;
+
+    } else {
+      this.filters.push(new AvailableBooksFilter());
+    }
+
+    if (this.storage.getItem(this.keywordStorageKey) !== undefined) {
+      this.keyword = this.storage.getItem(this.keywordStorageKey);
+      hasInitSearch = true;
+    }
+
+    if (hasInitSearch) {
+      this.search();
+    }
   }
 
   ngOnDestroy(): void {
@@ -70,6 +92,10 @@ export class SearchComponent implements OnInit, OnDestroy {
         },
         () => {
           this.isSearching = false;
+
+          // cache the current search criteria
+          this.storage.setItem('searchFilters', this.filters);
+          this.storage.setItem('searchKeyword', this.keyword);
         });
   }
 
