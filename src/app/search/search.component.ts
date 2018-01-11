@@ -23,6 +23,8 @@ import { Filter } from "./filter";
   styleUrls: ['./search.component.scss']
 })
 export class SearchComponent implements OnInit, OnDestroy {
+  readonly placeholder: string = 'Book name or code';
+
   books: Book[];
   filters: Filter<Book>[];
   isSearching: boolean;

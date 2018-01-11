@@ -1,7 +1,7 @@
 <div class="container" fxLayout="column">
   <div fxFlex="none">
     <mat-card class="search-bar" fxLayout="row">
-      <input class="input" fxFlex name="keyword" matInput placeholder="Title"
+      <input class="input" fxFlex name="keyword" matInput placeholder="{{placeholder}}"
         [(ngModel)]="keyword" (keyup.enter)="search()"
         [disabled]="isSearching">
       <button mat-icon-button (click)="search()" color="primary">
